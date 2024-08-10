@@ -34,15 +34,44 @@ lists += `<li>${player.jersey}</li>`;
 console.log(lists);
 ```
 
+# Fat Arrow Functions
+
+> [!CAUTION]
+> Take care while using arrow function in the method of an object. **This** keyword represents global scope in arrow function not the object itself.
+```
+const value = (name, age) => {
+return `My name is ${name} and age ${age}`;
+};
+
+console.log(value("james", 45));
+```
+
+```
+const cars = {
+brands: ["Ford", "Audi", "BMW"],
+category: "Sport car",
+message: function () {
+return this.brands.map((brand) => {
+console.log(`${brand} is a ${this.category}.`);
+});
+},
+};
+
+cars.message();
+```
+
+# Default Function Arguments
+
+```
+const cars = (brand = "Ford") => {
+  console.log(`My brand is ${brand}.`);
+};
+
+cars();
+cars("BMW");
+```
+
 # Object Literals
-
-```
-const request = (url, data) => {
-  $.ajax({method: 'post', url, data})
-}
-
-request('http://request.com', {car: ford});
-```
 
 ```
 const createCharacter = (name, powers) => {
@@ -73,29 +102,58 @@ var createObject = (name, lastname, age) => {
 console.log(createObject("Avi", "Aryal", 20));
 ```
 
-# Fat Arrow Functions
+# Operator Precedence
+
+Visit [Operator Precedence in MDN Docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_precedence) and go through the document.
+
+Assignment operators have lesser precedence than mathematical and other operators.
+
+# String and numbers
 
 ```
-const value = (name, age) => {
-  return `My name is ${name} and age ${age}`;
-};
+console.log("foo".repeat(3 * 10));
+```
+**repeat** will repeat foo for 30 times.
 
-console.log(value("james", 45));
+```
+var word = "camera";
+console.log(word.indexOf("era")); // 3
+```
+**indexOf** returns the index of first character in the given word. If there is no match, then it will return -1.
+
+```
+console.log(word.startsWith("cam")); // true
+console.log(word.startsWith("am", 1)); //true
+```
+**startsWith** return the boolean value whether the word start with given character or substring or not. If an optional position is provided then it returns whether provided substring starts from the given position or not.
+
+```
+console.log(word.endsWith("era", 4)); // false
+```
+**endsWith** is same as that of startsWith but check the index of an end character +1. For _era_ on _camera_, it is 6.
+
+```
+console.log(word.includes("ame")); // true
+console.log(word.includes("me", 2)); // true
+```
+**includes** is similar to **startsWith** and **endsWith**.
+
+```
+console.log(Number.isSafeInteger(200)); // true
+console.log(Number.isSafeInteger(0.022321)); //false
 ```
 
 ```
-const cars = {
-  brands: ["Ford", "Audi", "BMW"],
-  category: "Sport car",
-  message: function () {
-    return this.brands.map((brand) => {
-      console.log(`${brand} is a ${this.category}.`);
-    });
-  },
-};
-
-cars.message();
+console.log(Number.isInteger(200)); // true
+console.log(Number.isInteger(-5000)); // true
+console.log(Number.isInteger(0.022321)); // false
 ```
+
+```
+console.log(Math.trunc(42.8)); // 42
+console.log(Math.trunc(-10.1)); // -10
+```
+**trunc** will discard the part after decimal.
 
 # For Each
 ```
@@ -146,7 +204,6 @@ document.body.insertAdjacentHTML("beforeend", template);
 
 # Map
 
-**map** should always return something.
 ```
 const numbers = [1, 2, 3, 4];
 
@@ -324,4 +381,75 @@ for (let number of numbers) {
 }
 
 console.log(total);
+```
+
+# Rest Operator
+
+```
+function args(...arguments) {
+  console.log(arguments);
+}
+
+args("Val1", "Val2", "Val3");
+```
+
+# Spread Operator
+
+```
+const brands = ["Ford", "Nissan"];
+const otherBrand = ["Audi", "BMW"];
+
+const newArray = [...brands, ...otherBrand];
+
+console.log(newArray);
+```
+
+```
+function showItems(arg1, ...arg2) {
+  let arr = [...arg1, ...arg2];
+  console.log(arr);
+}
+
+showItems(["dog", "cat"], "turtles", "sharks");
+```
+
+# Destructuring
+
+```
+const user = {
+  name: "Francis",
+  lastname: "Jones",
+  age: 25,
+};
+
+const { name } = user;
+const { lastname } = user;
+const { age } = user;
+
+console.log(name, lastname, age);
+```
+
+OR
+
+```const { name, lastname, age } = user;```
+
+```
+const cars = ["camaro", "nova", "a4"];
+
+const [camaro, nova, a4] = cars;
+console.log(camaro);
+
+const [camaro, ...rest] = cars;
+console.log(rest);
+```
+
+# Promises and Fetch
+
+```
+const url = "https://jsonplaceholder.typicode.com/posts/1";
+
+fetch(url)
+  .then((response) => response.json())
+  .then((data) => console.log(data))
+  .catch((error) => console.log("Sorry", error));
 ```
