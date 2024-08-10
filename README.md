@@ -5,13 +5,13 @@ We will use **const** whenever we expect the value of the content inside const n
 **let** is opposite of the const. We can mutate let as much as we want.
 
 In **for loop**, while declaring a variable such as i, we must use **let** keyword.
-```
+```js
 for(let i = 0; i<divs.length; i++) {...}
 ```
 
 # Template Literals
 
-```
+```js
 let my_name = "Mathew";
 
 console.log(`My name is ${my_name}.`);
@@ -21,7 +21,7 @@ console.log(
 );
 ```
 
-```
+```js
 let lists = [];
 
 const player = {
@@ -38,7 +38,8 @@ console.log(lists);
 
 > [!CAUTION]
 > Take care while using arrow function in the method of an object. **This** keyword represents global scope in arrow function not the object itself.
-```
+
+```js
 const value = (name, age) => {
 return `My name is ${name} and age ${age}`;
 };
@@ -46,7 +47,7 @@ return `My name is ${name} and age ${age}`;
 console.log(value("james", 45));
 ```
 
-```
+```js
 const cars = {
 brands: ["Ford", "Audi", "BMW"],
 category: "Sport car",
@@ -62,7 +63,7 @@ cars.message();
 
 # Default Function Arguments
 
-```
+```js
 const cars = (brand = "Ford") => {
   console.log(`My brand is ${brand}.`);
 };
@@ -73,7 +74,7 @@ cars("BMW");
 
 # Object Literals
 
-```
+```js
 const createCharacter = (name, powers) => {
   return {
     name,
@@ -94,7 +95,7 @@ console.log(characterObj);
 console.log(characterObj.getFriends());
 ```
 
-```
+```js
 var createObject = (name, lastname, age) => {
   return {name, lastname, age};
 };
@@ -110,60 +111,60 @@ Assignment operators have lesser precedence than mathematical and other operator
 
 # String and numbers
 
-```
+```js
 console.log("foo".repeat(3 * 10));
 ```
 **repeat** will repeat foo for 30 times.
 
-```
+```js
 var word = "camera";
 console.log(word.indexOf("era")); // 3
 ```
 **indexOf** returns the index of first character in the given word. If there is no match, then it will return -1.
 
-```
+```js
 console.log(word.startsWith("cam")); // true
 console.log(word.startsWith("am", 1)); //true
 ```
 **startsWith** return the boolean value whether the word start with given character or substring or not. If an optional position is provided then it returns whether provided substring starts from the given position or not.
 
-```
+```js
 console.log(word.endsWith("era", 4)); // false
 ```
 **endsWith** is same as that of startsWith but check the index of an end character +1. For _era_ on _camera_, it is 6.
 
-```
+```js
 console.log(word.includes("ame")); // true
 console.log(word.includes("me", 2)); // true
 ```
 **includes** is similar to **startsWith** and **endsWith**.
 
-```
+```js
 console.log(Number.isSafeInteger(200)); // true
 console.log(Number.isSafeInteger(0.022321)); //false
 ```
 
-```
+```js
 console.log(Number.isInteger(200)); // true
 console.log(Number.isInteger(-5000)); // true
 console.log(Number.isInteger(0.022321)); // false
 ```
 
-```
+```js
 console.log(Math.trunc(42.8)); // 42
 console.log(Math.trunc(-10.1)); // -10
 ```
 **trunc** will discard the part after decimal.
 
 # For Each
-```
+```js
 const artists = ["Clapton", "U2", "Bruno Mars", "Lamar"];
 
 artists.forEach(function(artist){
   console.log(artist);
 });
 ```
-```
+```js
 artists.forEach((name) => {
   document.body.insertAdjacentHTML(
     "beforeend",
@@ -173,7 +174,7 @@ artists.forEach((name) => {
 ```
 
 ***Complex example*** of **forEach** with more other concepts:-
-```
+```js
 const products = [
   { name: "Iphone", price: 200 },
   { name: "Motorala", price: 70 },
@@ -204,7 +205,7 @@ document.body.insertAdjacentHTML("beforeend", template);
 
 # Map
 
-```
+```js
 const numbers = [1, 2, 3, 4];
 
 const other Arr = numbers.map(function(number){
@@ -213,7 +214,7 @@ const other Arr = numbers.map(function(number){
 
 console.log(otherArray);
 ```
-```
+```js
 const users = [
   { user: "Martin", age: 32, eyes: "brown" },
   { user: "Jan", age: 20, eyes: "blue" },
@@ -234,7 +235,7 @@ listOfUsers.forEach((name) => {
 
 **map** returns a new array containing the results of applying an operation on all original array elements.
 
-```
+```js
 const cars = [
   { name: "Ford", price: 200 },
   { name: "Nissan", price: 400 },
@@ -253,7 +254,7 @@ console.log(price);
 
 # Filter
 
-```
+```js
 const products = [
   { name: "Sony TV Sonico", category: "TV", number: 20 },
   { name: "LG TB Likee", category: "TV", number: 0 },
@@ -271,7 +272,7 @@ console.log(result);
 
 # Find
 
-```
+```js
 const brands = [
   { name: "Apple", id: 1 },
   { name: "HP", id: 2 },
@@ -289,7 +290,7 @@ It returns the first element of an array that matches the condition.
 
 # Every & Some
 
-```
+```js
 const students = [
   { name: "Francis", grade: 4 },
   { name: "Martin", grade: 5 },
@@ -298,7 +299,7 @@ const students = [
 ```
 
 if **every** finds to be false in the first check then it will stop checking further and return false.
-```
+```js
 let allStudentsPassedTheCourse = students.every((student) => {
   return student.grade >= 6;
 });
@@ -307,7 +308,7 @@ console.log(allStudentsPassedTheCourse);
 ```
 
 **some** is pretty much opposite of every. They do same thing but in a opposite way.
-```
+```js
 let someStudentsPassedTheCourse = students.some((student) => {
   return student.grade >= 6;
 });
@@ -319,7 +320,7 @@ Returns boolean value.
 
 # Reduce
 
-```
+```js
 const previous = 200;
 const current = [
   { expense: "Guitar", amount: 200 },
@@ -336,7 +337,7 @@ console.log(results);
 
 **reduce** boils ("reduces") all array element down to one single value(e.g. adding all elements together).
 
-```
+```js
 const users = [
   { name: "Francis", lastname: "Norton", age: 25 },
   { name: "Martha", lastname: "Norton", age: 25 },
@@ -351,7 +352,7 @@ const user_name = users.reduce((start, user) => {
 console.log(user_name);
 ```
 
-```
+```js
 const computers = [
   { type: "Laptop", price: 124, OS: "Windows" },
   { type: "Desk", price: 124, OS: "Mac" },
@@ -372,7 +373,7 @@ console.log(osTypes);
 
 # For of
 
-```
+```js
 const numbers = [10, 20, 30, 40, 50];
 let total = 0;
 
@@ -385,7 +386,7 @@ console.log(total);
 
 # Rest Operator
 
-```
+```js
 function args(...arguments) {
   console.log(arguments);
 }
@@ -395,7 +396,7 @@ args("Val1", "Val2", "Val3");
 
 # Spread Operator
 
-```
+```js
 const brands = ["Ford", "Nissan"];
 const otherBrand = ["Audi", "BMW"];
 
@@ -404,7 +405,7 @@ const newArray = [...brands, ...otherBrand];
 console.log(newArray);
 ```
 
-```
+```js
 function showItems(arg1, ...arg2) {
   let arr = [...arg1, ...arg2];
   console.log(arr);
@@ -415,7 +416,7 @@ showItems(["dog", "cat"], "turtles", "sharks");
 
 # Destructuring
 
-```
+```js
 const user = {
   name: "Francis",
   lastname: "Jones",
@@ -431,9 +432,11 @@ console.log(name, lastname, age);
 
 OR
 
-```const { name, lastname, age } = user;```
-
+```js
+const { name, lastname, age } = user;
 ```
+
+```js
 const cars = ["camaro", "nova", "a4"];
 
 const [camaro, nova, a4] = cars;
@@ -445,7 +448,7 @@ console.log(rest);
 
 # Promises and Fetch
 
-```
+```js
 const url = "https://jsonplaceholder.typicode.com/posts/1";
 
 fetch(url)
