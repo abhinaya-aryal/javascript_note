@@ -16,3 +16,7 @@ const player = {
 lists += `<li>${player.jersey}</li>`;
 
 console.log(lists);
+
+console.log(`String with 
+multiple
+lines`);

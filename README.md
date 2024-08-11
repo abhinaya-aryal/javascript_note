@@ -9,6 +9,116 @@ In **for loop**, while declaring a variable such as i, we must use **let** keywo
 for(let i = 0; i<divs.length; i++) {...}
 ```
 
+
+
+# If Else
+
+**Condition** is something that will return the **boolean** value. **Boolean** value means either **true** or **false**.
+
+```js
+const age = 19;
+const isOldEnough = age >= 18;
+
+if (isOldEnough) {
+  console.log(`Eligible`);
+} else {
+  console.log(`Not Eligible`);
+}
+```
+
+> [!IMPORTANT]
+> The variables that are created inside the **if** block using **let** keyword are only accessible inside that same block and can't be accessed from outside. So, we have to define them outside at first and then we can reassign the value conditionally in the **if** block if we need the variable outside the block.
+
+
+
+
+# Truthy and Falsy Values
+
+The falsy values on **JavaScript** are:-
+- false
+- 0
+- '' (empty string)
+- undefined
+- null
+- Nan
+
+Other than these are truthy values.
+
+```js
+console.log(Boolean(0)); // false
+console.log(Boolean(undefined)); // false
+console.log(Boolean("")); // false
+
+console.log(Boolean("Jonas")); // true
+console.log(Boolean({})); // true
+```
+
+```js
+const money = 0;
+if (money) {
+  console.log("Don't spend");
+} else {
+  console.log("Get a job!");
+}
+```
+
+> [!CAUTION]
+> We have to take care of **0** numeric value when using it in condition as it is determined as **falsy** value.
+
+
+
+
+
+# Type Conversion and Coercion
+
+```js
+const inputYear = "1991";
+console.log(inputYear + 18);
+```
+
+This will **concatenate** the numbers by coercing 18 to the string.
+
+For **mathematical calculation**,
+
+```js
+console.log(Number(inputYear) + 18);
+```
+
+```js
+console.log(String(23));
+```
+Here, we do the **type conversion** manually. In most of the cases, **JavaScript** will do this for us automatically with the help of type coercion. **Number** and **String** are built in function on **JavaScript**.
+
+```js
+console.log("I am " + 23 + " years old.");
+```
+
+The output will be a **string**.
+
+```js
+console.log("23" - "10" - 3); // 10
+console.log("23" * "2"); // 46
+console.log("23" > "18"); // true
+```
+
+```js
+let n = "1" + 1;
+n = n - 1;
+console.log(n); // 10
+```
+
+Here , first statement will concat **1** and **1** forming **11**. Then, **1** is subtracted from **11** causing the answer to be **10**.
+
+```js
+console.log(2 + 3 + 4 + "5"); // 95
+```
+
+Here, at first addition will occur of three integers i.e. **2 + 3 + 4 = 9**. Afterward, **5** is concatenated to the **9** forming the answer to be **95**.
+
+
+
+
+
 # Template Literals
 
 ```js
@@ -19,6 +129,13 @@ console.log(`My name is ${my_name}.`);
 console.log(
   `One of character from name is ${my_name[Math.floor(Math.random() * my_name.length - 1) + 1]}.`
 );
+```
+
+```js
+console.log(`F\t  C\n`);
+for (fahr = 0; fahr <= 300; fahr = fahr + step) {
+  console.log(`${fahr}\t ${((5 / 9) * (fahr - 32)).toFixed(2)}\n`);
+}
 ```
 
 ```js
@@ -33,6 +150,47 @@ lists += `<li>${player.jersey}</li>`;
 
 console.log(lists);
 ```
+
+It is good to use **backticks** (``) for every string.
+
+
+
+
+# Multiline String
+
+Template literal is used for **multiline string** too.
+
+```js
+console.log(`String with
+multiple
+lines`);
+```
+
+
+
+
+# Boolean Logic
+
+**AND**: **true** when **all** are **true**
+
+| AND   | True  | False |
+|-------|-------|-------|
+| True  | True  | False |
+| False | False | False |
+
+
+**OR**: **true** when **one** is **true**
+
+|   OR   |   True   |   False   |
+|--------|----------|-----------|
+|  True  |  True    |   True    |
+|  False |  True    |  False    |
+
+**NOT**: **inverts** true/false value
+
+
+
+
 
 # Fat Arrow Functions
 
@@ -61,6 +219,9 @@ console.log(`${brand} is a ${this.category}.`);
 cars.message();
 ```
 
+
+
+
 # Default Function Arguments
 
 ```js
@@ -71,6 +232,9 @@ const cars = (brand = "Ford") => {
 cars();
 cars("BMW");
 ```
+
+
+
 
 # Object Literals
 
@@ -103,11 +267,17 @@ var createObject = (name, lastname, age) => {
 console.log(createObject("Avi", "Aryal", 20));
 ```
 
+
+
+
 # Operator Precedence
 
 Visit [Operator Precedence in MDN Docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_precedence) and go through the document.
 
 Assignment operators have lesser precedence than mathematical and other operators.
+
+
+
 
 # String and numbers
 
@@ -156,6 +326,9 @@ console.log(Math.trunc(-10.1)); // -10
 ```
 **trunc** will discard the part after decimal.
 
+
+
+
 # For Each
 ```js
 const artists = ["Clapton", "U2", "Bruno Mars", "Lamar"];
@@ -202,6 +375,9 @@ products.forEach((product) => {
 
 document.body.insertAdjacentHTML("beforeend", template);
 ```
+
+
+
 
 # Map
 
@@ -252,6 +428,9 @@ const price = cars.map(function (car) {
 console.log(price);
 ```
 
+
+
+
 # Filter
 
 ```js
@@ -270,6 +449,9 @@ console.log(result);
 
 **filter** returns a new array containing the array elements that passed a specific test condition.
 
+
+
+
 # Find
 
 ```js
@@ -287,6 +469,10 @@ console.log(result);
 ```
 
 It returns the first element of an array that matches the condition.
+
+
+
+
 
 # Every & Some
 
@@ -317,6 +503,9 @@ console.log(someStudentsPassedTheCourse);
 ```
 
 Returns boolean value.
+
+
+
 
 # Reduce
 
@@ -371,6 +560,9 @@ let osTypes = computers.reduce(
 console.log(osTypes);
 ```
 
+
+
+
 # For of
 
 ```js
@@ -384,6 +576,9 @@ for (let number of numbers) {
 console.log(total);
 ```
 
+
+
+
 # Rest Operator
 
 ```js
@@ -393,6 +588,9 @@ function args(...arguments) {
 
 args("Val1", "Val2", "Val3");
 ```
+
+
+
 
 # Spread Operator
 
@@ -413,6 +611,9 @@ function showItems(arg1, ...arg2) {
 
 showItems(["dog", "cat"], "turtles", "sharks");
 ```
+
+
+
 
 # Destructuring
 
@@ -445,6 +646,10 @@ console.log(camaro);
 const [camaro, ...rest] = cars;
 console.log(rest);
 ```
+
+
+
+
 
 # Promises and Fetch
 
