@@ -11,6 +11,35 @@ for(let i = 0; i<divs.length; i++) {...}
 
 
 
+# Function Declaration vs Function Expressions
+
+Let see the example of function declaration at first:-
+
+```js
+const age1 = calcAge1(1991);
+function calcAge1(birthYear) {
+  return 2024 - birthYear;
+}
+console.log(age1);
+```
+
+
+Let see the example of function expression:
+
+```js
+const caclcAge2 = function (birthYear) {
+  return 2024 - birthYear;
+};
+const age2 = caclcAge2(1991);
+console.log(age2);
+```
+
+> [!WARNING]
+> The main practical **difference** between **function declaration** and **function expression** is that we can actually call **function declaration before they are defined in code**. The **function expression** should be called **after its declarations**. This is due to the **hoisting in JavaScript**.
+
+
+
+
 # If Else
 
 **Condition** is something that will return the **boolean** value. **Boolean** value means either **true** or **false**.
@@ -28,6 +57,44 @@ if (isOldEnough) {
 
 > [!IMPORTANT]
 > The variables that are created inside the **if** block using **let** keyword are only accessible inside that same block and can't be accessed from outside. So, we have to define them outside at first and then we can reassign the value conditionally in the **if** block if we need the variable outside the block.
+
+
+
+
+
+
+# Switch Statements
+
+```js
+let day = "Friday";
+
+switch (day) {
+  case "Monday":
+    console.log("It is monday");
+    break;
+  case "Tuesday":
+    console.log("It is tuesday");
+    break;
+  case "Wednesday":
+  case "Thursday":
+    console.log("Go on work!");
+    break;
+  case "Friday":
+    console.log("Record videos");
+    break;
+  default:
+    console.log("Rest");
+}
+```
+
+> [!NOTE]
+> **Switch cases** use **strict comparison(===)**. **Case** on switch statement are **case sensitive**. Also, if you want to carry out same thing for **multiple cases**, write the case statement without other statement inbetween. See the case for "Wednesday" and "Thursday" in above example.
+
+
+> [!IMPORTANT]
+> If **multiiple cases** matches a case value, the **first case** is selected. If **no matching cases** found, the program continues to **default label**. If **no default label** found, program continues **after the switch** statement.
+
+
 
 
 
@@ -171,22 +238,55 @@ lines`);
 
 # Boolean Logic
 
-**AND**: **true** when **all** are **true**
+- **AND**: **true** when **all** are **true**
 
-| AND   | True  | False |
-|-------|-------|-------|
-| True  | True  | False |
-| False | False | False |
+    | AND   | True  | False |
+    |-------|-------|-------|
+    | True  | True  | False |
+    | False | False | False |
 
 
-**OR**: **true** when **one** is **true**
+- **OR**: **true** when **one** is **true**
 
-|   OR   |   True   |   False   |
-|--------|----------|-----------|
-|  True  |  True    |   True    |
-|  False |  True    |  False    |
+    |   OR   |   True   |   False   |
+    |--------|----------|-----------|
+    |  True  |  True    |   True    |
+    |  False |  True    |  False    |
 
-**NOT**: **inverts** true/false value
+- **NOT**: **inverts** true/false value
+
+
+
+# Logical Operators
+
+```js
+const hasDriverLicense = true;
+const hasGoodVision = false;
+
+console.log(hasDriverLicense && hasGoodVision); // false
+console.log(hasDriverLicense || hasGoodVision); // true
+console.log(!hasDriverLicense); // false
+```
+
+```js
+const shouldDrive = hasDriverLicense && hasGoodVision;
+if (shouldDrive) {
+  console.log("Able to drive");
+} else {
+  console.log("Unable to drive");
+}
+```
+
+```js
+const isTired = true;
+console.log(hasDriverLicense && hasGoodVision && isTired);
+
+if (hasDriverLicense && hasGoodVision && !isTired) {
+  console.log("Drive");
+} else {
+  console.log("Run away");
+}
+```
 
 
 
@@ -199,21 +299,21 @@ lines`);
 
 ```js
 const value = (name, age) => {
-return `My name is ${name} and age ${age}`;
+  return `My name is ${name} and my age is ${age}.`;
 };
 
-console.log(value("james", 45));
+console.log(value("Mathew", 22));
 ```
 
 ```js
 const cars = {
-brands: ["Ford", "Audi", "BMW"],
-category: "Sport car",
-message: function () {
-return this.brands.map((brand) => {
-console.log(`${brand} is a ${this.category}.`);
-});
-},
+  brands: ["Ford", "Audi", "BMW"],
+  category: "Sport car",
+  message: function () {
+    return this.brands.map((brand) => {
+      console.log(`${brand} is a ${this.category}.`);
+    });
+  },
 };
 
 cars.message();
