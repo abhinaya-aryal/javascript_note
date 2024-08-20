@@ -1,4 +1,4 @@
-# const and let
+# Const and Let
 
 We will use **const** whenever we expect the value of the content inside const not to change. So, once we declare a const, this should never change throughout the whole application.
 
@@ -8,6 +8,22 @@ In **for loop**, while declaring a variable such as i, we must use **let** keywo
 ```js
 for(let i = 0; i<divs.length; i++) {...}
 ```
+
+
+
+
+# Var vs Let
+
+| var | let |
+|-----|-----|
+|1. var has been part of JavaScript since its inception.|1. let was introduced in ES6 version of JavaScript.|
+|2. var is globally scoped. |2. let is block scoped.|
+|3. var can be declared and accessed globally. |3. let can be declared globally, but its access is limited to the block in which it is declared.|
+|4. Variables declared using var can be redeclared and updated within same scope. |4. Variables declared with let can be updated but not redeclared within the same scope.|
+
+
+
+
 
 
 
@@ -34,8 +50,38 @@ const age2 = caclcAge2(1991);
 console.log(age2);
 ```
 
+> [!NOTE]
+> **Arrow functions** are **function expression**.
+
 > [!WARNING]
-> The main practical **difference** between **function declaration** and **function expression** is that we can actually call **function declaration before they are defined in code**. The **function expression** should be called **after its declarations**. This is due to the **hoisting in JavaScript**.
+> The main practical **difference** between **function declaration** and **function expression** is that we can actually call **function declaration before they are defined in code** while **function expression** should be called **after its declarations only**. This is due to the **hoisting in JavaScript**.
+
+- Expressed function cannot be used before initialization.
+- Expressed functions need to be assigned to be used later.
+- Anonymous functions are useful for anonymous operations. They are also known as Immediately Invoked Function Expressions(IIFEs).
+
+
+
+
+# Function Calling Other Function
+
+```js
+function cutFruitPieces(fruit) {
+  return fruit * 4;
+}
+
+function fruitProcessor(apples, oranges) {
+  const applePieces = cutFruitPieces(apples);
+  const orangePieces = cutFruitPieces(oranges);
+
+  const juice = `Juice with ${applePieces} pieces of apple and ${orangePieces} pieces of orange.`;
+  return juice;
+}
+
+console.log(fruitProcessor(2, 4));
+```
+
+
 
 
 
@@ -295,7 +341,7 @@ if (hasDriverLicense && hasGoodVision && !isTired) {
 # Fat Arrow Functions
 
 > [!CAUTION]
-> Take care while using arrow function in the method of an object. **This** keyword represents global scope in arrow function not the object itself.
+> Take care while using arrow function in the method of an object. **This** keyword represents global scope in arrow function not the object itself. Also, **arrow functions** cannot be **declared**; they can only be **expressed**. So, take care of **hoisting** while using arrow functions.
 
 ```js
 const value = (name, age) => {
@@ -424,12 +470,63 @@ console.log(Number.isInteger(0.022321)); // false
 console.log(Math.trunc(42.8)); // 42
 console.log(Math.trunc(-10.1)); // -10
 ```
+
 **trunc** will discard the part after decimal.
 
 
 
+# Methods of Arrays
 
-# For Each
+- ## Add Elements
+
+```js
+const friends = ["Michcael", "Steve", "Peter"];
+
+let newLength = friends.push("Jay"); // add element at last position
+console.log(friends, newLength);
+
+newLength = friends.unshift("John"); // add element at first position
+console.log(friends, newLength);
+```
+
+
+
+- ## Remove Elements
+
+```js
+const friends = ["Michael", "Steve", "Peter"];
+
+let removedFriend = friends.pop(); // remove last elements on array
+console.log(friends, removedFriend);
+
+removedFriend = friends.shift(); // remove first element from an array
+console.log(friends, removedFriend);
+```
+
+
+
+- ## Index Of
+
+```js
+const friends = ["Michael", "Steve", "Peter"];
+console.log(friends.indexOf("Steve")); // 1
+```
+
+
+
+
+- ## Includes
+
+Return **true** if there is an element and return **false** if no element matches.
+
+```js
+console.log(friends.includes("Bob")); // false
+```
+
+
+
+- ## For Each
+
 ```js
 const artists = ["Clapton", "U2", "Bruno Mars", "Lamar"];
 
@@ -437,6 +534,7 @@ artists.forEach(function(artist){
   console.log(artist);
 });
 ```
+
 ```js
 artists.forEach((name) => {
   document.body.insertAdjacentHTML(
@@ -479,7 +577,7 @@ document.body.insertAdjacentHTML("beforeend", template);
 
 
 
-# Map
+- ## Map
 
 ```js
 const numbers = [1, 2, 3, 4];
@@ -531,7 +629,7 @@ console.log(price);
 
 
 
-# Filter
+- ## Filter
 
 ```js
 const products = [
@@ -552,7 +650,7 @@ console.log(result);
 
 
 
-# Find
+- ## Find
 
 ```js
 const brands = [
@@ -574,7 +672,7 @@ It returns the first element of an array that matches the condition.
 
 
 
-# Every & Some
+- ## Every & Some
 
 ```js
 const students = [
@@ -607,7 +705,7 @@ Returns boolean value.
 
 
 
-# Reduce
+- ## Reduce
 
 ```js
 const previous = 200;
@@ -663,7 +761,7 @@ console.log(osTypes);
 
 
 
-# For of
+- ## For Of
 
 ```js
 const numbers = [10, 20, 30, 40, 50];
@@ -675,6 +773,35 @@ for (let number of numbers) {
 
 console.log(total);
 ```
+
+
+
+
+
+# Object and its Methods
+
+```js
+const jonas = {
+  firstName: "Jonas",
+  lastName: "Schmedtmann",
+  birthYear: 1991,
+  job: "teacher",
+  firends: ["Michael", "Peter"],
+  hasDriverLicense: true,
+  calcAge: function () {
+    this.age = 2024 - this.birthYear;
+    return this.age;
+  },
+  getSummary: function () {
+    return `${this.firstName} is a ${this.calcAge()} year old ${this.job}, and he has ${this.hasDriverLicense ? "a" : "no"} driver's license.`;
+  },
+};
+
+console.log(jonas.calcAge());
+console.log(jonas.age);
+console.log(jonas.getSummary());
+```
+
 
 
 
