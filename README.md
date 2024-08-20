@@ -110,7 +110,8 @@ switch (day) {
 }
 ```
 
-> [!NOTE] > **Switch cases** use **strict comparison(===)**. **Case** on switch statement are **case sensitive**. Also, if you want to carry out same thing for **multiple cases**, write the case statement without other statement inbetween. See the case for "Wednesday" and "Thursday" in above example.
+> [!NOTE]
+> **Switch cases** use **strict comparison(===)**. **Case** on switch statement are **case sensitive**. Also, if you want to carry out same thing for **multiple cases**, write the case statement without other statement inbetween. See the case for "Wednesday" and "Thursday" in above example.
 
 > [!IMPORTANT]
 > If **multiiple cases** matches a case value, the **first case** is selected. If **no matching cases** found, the program continues to **default label**. If **no default label** found, program continues **after the switch** statement.
