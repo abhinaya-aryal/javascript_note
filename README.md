@@ -407,6 +407,45 @@ Assignment operators have lesser precedence than mathematical and other operator
 # String and numbers
 
 ```js
+const plane = "A320A";
+
+console.log(plane[1]);
+
+console.log(plane.length);
+
+console.log(plane.lastIndexOf("A"));
+
+console.log(plane.slice(2)); // 20A
+console.log(plane.slice(1, 3)); // 32
+
+console.log(plane.toLowerCase());
+console.log(plane.toUpperCase());
+
+const trimmedEmail = lowerEmail.trim(); // removes all white spaces
+
+console.log("a very nice string".split(" "));
+console.log(["Hello", "world", "!!"].join(" "));
+```
+
+```js
+const message = "Go to gate 23!";
+console.log(message.padStart(22, "+").padEnd(30, "+")); // 22 and 30 are the maxlength to be
+
+const maskCreditCard = function (number) {
+  const str = number + "";
+  const last = str.slice(-4);
+  return last.padStart(str.length, "*");
+};
+
+console.log(maskCreditCard(64784473837));
+```
+
+```js
+const priceGB = "288,97E";
+const priceUS = priceGB.replace("E", "$").replace(",", ".");
+```
+
+```js
 console.log("foo".repeat(3 * 10));
 ```
 
@@ -415,9 +454,10 @@ console.log("foo".repeat(3 * 10));
 ```js
 var word = "camera";
 console.log(word.indexOf("era")); // 3
+console.log(word.replace("am", "amam"));
 ```
 
-**indexOf** returns the index of first character in the given word. If there is no match, then it will return -1.
+**indexOf** returns the index of first character in the given word. If there is no match, then it will return -1. **replace** replaces the **first occurrence** of the substring with provided substring.
 
 ```js
 console.log(word.startsWith("cam")); // true
@@ -930,6 +970,231 @@ However, there is still a **problem** because using this technique of `Object.as
 That's why, we say that this `Object.assign()` only creates a **shallow copy** and **not a deep clone** which is what we would like to have. So, a **shallow copy** will only copy the properties in the first level while **deep clone** would copy everything.
 
 Now, a **deep clone** is what we would need here but it is not easy to achieve. Usually, we do **deep clone** using **external library** such as **_Lo-Dash_**.
+
+# Object Keys, Values and Entries
+
+```js
+const restaurant = {
+  name: "Gourmet Bistro",
+  location: "123 Flavor Street, Foodie Town",
+  openingHours: {
+    sun: {
+      open: true,
+    },
+    mon: {
+      open: true,
+    },
+    tue: {
+      open: true,
+    },
+    wed: {
+      open: true,
+    },
+    thu: {
+      open: true,
+    },
+    fri: {
+      open: true,
+    },
+    sat: {
+      open: false,
+    },
+  },
+};
+
+const properties = Object.keys(restaurant); // property names
+console.log(properties);
+
+const values = Object.values(restaurant); // property values
+console.log(values);
+
+const entries = Object.entries(restaurant); // entire object
+console.log(entries);
+```
+
+# Optional Chaining
+
+```js
+const users = [{ name: "Jonas", email: "hello@jonas.io" }];
+console.log(users[0]?.name ?? "User Array Empty");
+```
+
+With **optional chaining** if a certain property **does not** exist, then **undefined** is returned immediately.
+
+```js
+console.log(restaurant.openingHours.mon?.open);
+```
+
+So, only if **mon** exists then this **open** property will be read from there. Else, **undefined** will be returned **(nullish concept)**.
+
+# Nullish Coalescing Operator
+
+**Nullish Coalescing** is an operator that was introduced in **ES2020**.
+
+```js
+const guestCorrect = restaurant.numGuests ?? 10;
+```
+
+<!-- prettier-ignore -->
+> [!NOTE]
+> The **nullish coalescing (??)** operator is a logical operator that returns its **right-hand side** operand when its **left-hand side** operand is **null or undefined**, and **otherwise** returns its **left-hand side** operand.
+
+The **nullish coalescing** operator works with the idea or with the concept of **nullish** values instead of **falsy** values. Nullish values are:-
+
+- null
+- undefined
+
+# Sets
+
+**Set** is basically just a **collection of unique values**. **Set** can **never** have **any duplicate**.
+
+```js
+const orderSet = new Set(["Pasta", "Pizza"]);
+console.log(orderSet);
+```
+
+<!-- prettier-ignore -->
+> [!NOTE]
+> **Sets** can also handle **mixed data types**.
+
+```js
+const orderSet = new Set(["Pasta", "Pizza", "Coffee", "Pizza"]);
+console.log(orderSet);
+```
+
+It will consist all the **unique values** only. So, there will be **only one** pizza and another will be removed by **set**. Also, there are **no** key value pairs, it's just a bunch of values **grouped together**. And just like **arrays**, **set** are also **iterables**.
+
+```js
+console.log(orderSet.size); // 3
+
+console.log(orderSet.has("Pizza")); // true
+
+console.log(orderSet.add("Garlic Bread"));
+
+orderSet.delete("Coffee");
+console.log(orderSet);
+orderSet.clear();
+```
+
+<!-- prettier-ignore -->
+> [!IMPORTANT]
+> Ther is **no way** of retrieving values from a **set**. We have only **has** method to check whether the value **is in** set or not. If we need to **store and retrieve** the value later then **array** should be used.
+
+We can **loop** through the **set**.
+
+```js
+for (const order of orderSet) {
+  console.log(order);
+}
+```
+
+The greatest **usecase** of **set** is actually to **remove duplicate** values of arrays.
+
+```js
+const staff = ["Waiter", "Chef", "Waiter", "Manager", "Chef", "Waiter"];
+
+const uniqueStaffSet = new Set(staff);
+
+const uniqueStaffArr = [...new Set(staff)];
+```
+
+# Maps
+
+**Map** is the **data structure** that we can use to **map values to keys**. So, just like an **object**, data is stored in **key value pairs** in maps.
+
+Now, the big difference between **objects and maps** is that in **maps**, keys can have **any type** while in **object**, keys are basically always **string**.
+
+```js
+const rest = new Map();
+rest.set("name", "Classico Italino");
+rest.set(1, "Firenze, Italy");
+rest.set(2, "Lisbon, Portugal");
+
+rest
+  .set("categories", ["Italian", "Pizzera", "Vegetarian", "Organic"])
+  .set("open", 11)
+  .set("close", 23)
+  .set(true, "We are open :D")
+  .set(false, "We are closed :(");
+
+console.log(rest.get("name"));
+console.log(rest.get(true));
+console.log(rest.get(1));
+
+const time = 21;
+console.log(rest.get(time > rest.get("open") && time < rest.get("close")));
+
+console.log(rest.has("categories"));
+
+rest.delete(2);
+console.log(rest);
+
+console.log(rest.size);
+
+rest.clear();
+```
+
+```js
+const question = new Map([
+  ["question", "What is the best programming language in the world?"],
+  [1, "C"],
+  [2, "Java"],
+  [3, "JavaScript"],
+  ["correct", 3],
+  [true, "Correct!!"],
+  [false, "Try Again!"],
+]);
+
+for (const [key, value] of question) {
+  if (typeof key === "number") {
+    console.log(`Option ${key}: ${value}`);
+  }
+}
+
+let answer = 2;
+console.log(question.get(question.get("correct") === answer));
+```
+
+We can even create a **map** from an object.
+
+```js
+const restaurant = {
+  name: "Gourmet Bistro",
+  location: "123 Flavor Street, Foodie Town",
+  openingHours: {
+    sun: {
+      open: true,
+    },
+    mon: {
+      open: true,
+    },
+    tue: {
+      open: true,
+    },
+    wed: {
+      open: true,
+    },
+    thu: {
+      open: true,
+    },
+    fri: {
+      open: true,
+    },
+    sat: {
+      open: false,
+    },
+  },
+};
+
+const hoursMap = new Map(Object.entries(restaurant.openingHours));
+console.log(hoursMap);
+```
+
+Also, we can convert **map** to a **multi-dimensional array**.
+
+```js
+console.log([...question]);
+```
 
 # Rest Operator
 
