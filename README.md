@@ -41,9 +41,11 @@ const age2 = caclcAge2(1991);
 console.log(age2);
 ```
 
-> [!NOTE]
+<!-- prettier-ignore -->
+> [!NOTE]  
 > **Arrow functions** are **function expressions**.
 
+<!-- prettier-ignore -->
 > [!WARNING]
 > The main practical **difference** between **function declaration** and **function expression** is that we can actually call **function declaration before they are defined in code** while **function expression** should be called **after its declarations only**. This is due to the **hoisting in JavaScript**.
 
@@ -84,6 +86,7 @@ if (isOldEnough) {
 }
 ```
 
+<!-- prettier-ignore -->
 > [!IMPORTANT]
 > The variables that are created inside the **if** block using **let** keyword are only accessible inside that same block and can't be accessed from outside. So, we have to define them outside at first and then we can reassign the value conditionally in the **if** block if we need the variable outside the block.
 
@@ -111,9 +114,11 @@ switch (day) {
 }
 ```
 
-> [!NOTE] >
+<!-- prettier-ignore -->
+> [!NOTE] 
 > **Switch cases** use **strict comparison(===)**. **Case** on switch statement are **case sensitive**. Also, if you want to carry out same thing for **multiple cases**, write the case statement without other statement inbetween. See the case for "Wednesday" and "Thursday" in above example.
 
+<!-- prettier-ignore -->
 > [!IMPORTANT]
 > If **multiiple cases** matches a case value, the **first case** is selected. If **no matching cases** found, the program continues to **default label**. If **no default label** found, program continues **after the switch** statement.
 
@@ -148,6 +153,7 @@ if (money) {
 }
 ```
 
+<!-- prettier-ignore -->
 > [!CAUTION]
 > We have to take care of **0** numeric value when using it in condition as it is determined as **falsy** value.
 
@@ -290,6 +296,38 @@ if (hasDriverLicense && hasGoodVision && !isTired) {
   console.log("Run away");
 }
 ```
+
+# Short Circuiting
+
+**Logical Operators** can use **any** data type. They can return **any** data type. They do something called **short circuiting**.
+
+```js
+console.log(3 || "JONAS"); // 3
+```
+
+In the case of **OR** operator, **short circuiting** means that if the **first** value is a **truthy** value, it will immediately return that **first value**.
+
+```js
+console.log("" || "Jonas"); // Jonas
+console.log(true || 0); // true
+console.log(undefined || null); // null
+console.log(undefined || 0 || "" || "" || "Hello" || 23 || null); // Hello
+```
+
+<!-- prettier-ignore -->
+> [!NOTE] 
+> **OR** operator will return the **first** truthy value of all the operands or simply the **last** value if all of them are **falsy**.
+
+```js
+console.log(0 && "Jonas"); // 0
+console.log(7 && "Jonas"); // Jonas
+```
+
+So, the **AND** operator is only **true** if all the operands are **true**. As soon as it encounter **falsy** value it will stop the execution in that **falsy** value.
+
+<!-- prettier-ignore -->
+> [!NOTE]
+> **AND** operator will return the **first falsy** value or the **last** value if all of operands are true.
 
 # Fat Arrow Functions
 
@@ -441,6 +479,7 @@ for (let exercise = 1; exercise < 4; exercise++) {
 }
 ```
 
+<!-- prettier-ignore -->
 > [!NOTE]
 > We have access to the variable of **outer loop** in **inner loop** too. Here, we can access **exercise** in **inner loop** too.
 
@@ -886,9 +925,11 @@ const jessicaCopy = Object.assign({}, jessica);
 jessicaCopy.lastName = "Davis";
 ```
 
-However, there is still a **problem** because using this technique of _Object.assign()_ only works on the **first level**. In other words, if we have an **object inside the object**, then this **inner object** will still **remains the same**. So, it will still **point** to the **same place in memory**.
+However, there is still a **problem** because using this technique of `Object.assign()` only works on the **first level**. In other words, if we have an **object inside the object**, then this **inner object** will still **remains the same**. So, it will still **point** to the **same place in memory**.
 
-That's why
+That's why, we say that this `Object.assign()` only creates a **shallow copy** and **not a deep clone** which is what we would like to have. So, a **shallow copy** will only copy the properties in the first level while **deep clone** would copy everything.
+
+Now, a **deep clone** is what we would need here but it is not easy to achieve. Usually, we do **deep clone** using **external library** such as **_Lo-Dash_**.
 
 # Rest Operator
 
@@ -977,6 +1018,7 @@ We will be able to **change text**, **change HTML attributes** and also **change
 
 So, **DOM** is basically a **connection point** between **HTML documents** and **JavaScript code**. **DOM** is automatically created by the browser as soon as the **HTML page loads**. And it is stored in a **tree structure**. In this tree, each **HTML element** is an object.
 
+<!-- prettier-ignore -->
 > [!NOTE]
 > Most of us believe that the **DOM** and its methods and properties are actually **part of JavaScript**. However,this is **not the case**. **JavaScript** is actually just a dialect of the **ECMAScript specification**. The **DOM** and **its methods** are actually part of something called the **Web APIs**. So, the **Web APIs** are like libraries that **browsers** implement and that we can access from our **JavaScript code**. **Web APIs** are basically a libraries that are also written in **JavaScript** and are automatically available for **us to use**.
 
