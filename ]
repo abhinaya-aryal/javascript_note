@@ -12,15 +12,7 @@ for(let i = 0; i<divs.length; i++) {...}
 
 <!-- prettier-ignore -->
 > [!IMPORTANT]
-> If we don't specify **const, let and var** to the variable and assign a value, then that variable becomes **global variable** i.e. can be accessed from anywhere.
-
-```js
-function check() {
-  y = "GeeksForGeeks";
-}
-check();
-console.log(y); // GeeksForGeeks
-```
+> If we don't specify **const, let and var** to the variable and assign a value, then that variable becomes global variable i.e. can be accessed from anywhere.
 
 # Var vs Let
 
@@ -782,17 +774,6 @@ console.log(locale);
 
 date = new Intl.DateTimeFormat(locale, options).format(now);
 console.log(date);
-```
-
-```js
-const num = 3884764.23;
-console.log(new Intl.NumberFormat("ne-NP").format(num)); // ३८,८४,७६४.२३
-
-const currency = new Intl.NumberFormat("ne-NP", {
-  style: "currency",
-  currency: "NPR",
-}).format(34343);
-console.log(currency); // नेरू ३४,३४३.००
 ```
 
 # Array and its Methods
