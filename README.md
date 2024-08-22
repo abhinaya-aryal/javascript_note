@@ -19,6 +19,44 @@ for(let i = 0; i<divs.length; i++) {...}
 | 3. var can be declared and accessed globally.                                    | 3. let can be declared globally, but its access is limited to the block in which it is declared. |
 | 4. Variables declared using var can be redeclared and updated within same scope. | 4. Variables declared with let can be updated but not redeclared within the same scope.          |
 
+# Fat Arrow Functions
+
+> [!CAUTION]
+> Take care while using arrow function in the method of an object. **This** keyword represents global scope in arrow function not the object itself. Also, **arrow functions** cannot be **declared**; they can only be **expressed**. So, take care of **hoisting** while using arrow functions.
+
+```js
+const value = (name, age) => {
+  return `My name is ${name} and my age is ${age}.`;
+};
+
+console.log(value("Mathew", 22));
+```
+
+```js
+const cars = {
+  brands: ["Ford", "Audi", "BMW"],
+  category: "Sport car",
+  message: function () {
+    return this.brands.map((brand) => {
+      console.log(`${brand} is a ${this.category}.`);
+    });
+  },
+};
+
+cars.message();
+```
+
+# Default Function Arguments
+
+```js
+const cars = (brand = "Ford") => {
+  console.log(`My brand is ${brand}.`);
+};
+
+cars();
+cars("BMW");
+```
+
 # Function Declaration vs Function Expressions
 
 Let see the example of function declaration at first:-
@@ -70,6 +108,74 @@ function fruitProcessor(apples, oranges) {
 
 console.log(fruitProcessor(2, 4));
 ```
+
+# Higher Order Functions
+
+```js
+const upperFirstWord = function (str) {
+  const [first, ...others] = str.split(" ");
+  return [first.toUpperCase(), ...others].join(" ");
+};
+
+const transformer = function (str, fn) {
+  console.log(`Original string: ${str}`);
+  console.log(`Transformed string: ${fn(str)}`);
+  console.log(`Transformed by: ${fn.name}`);
+};
+
+transformer("JavaScript is best!", upperFirstWord);
+```
+
+# Function Returning Function
+
+```js
+const greet = function (greeting) {
+  return function (name) {
+    console.log(`${greeting} ${name}`);
+  };
+};
+
+const greeterHey = greet("Hey");
+greeterHey("Jonas");
+
+greet("Hey")("Ram");
+greet("Hello")("Hari");
+```
+
+# Immediately Invoked Function
+
+```js
+(function () {
+  console.log("This will never run again as there is no way to call it!!");
+})();
+
+(() => console.log("Same as above but in fat arrow syntax"))();
+```
+
+# Closures
+
+**Closure** is not a feature that we explicitly use. So, we **don't create closure manually**. A **closure** simply happens **automatically** in certain situations; we just need to **recognize those situations**.
+
+**Every function** always has access to the **variable environment** of the execution context in which the **function was created** even after that **execution context** is gone.
+
+A **closure** gives a function access to all the **variables of its parent function**, even after that **parent function** has returned. The function keeps a **reference** to its **outer scope**, which preserves the scope chain throughout time.
+
+```js
+function makeFunc() {
+  const name = "Mozilla";
+  function displayName() {
+    console.log(name);
+  }
+  return displayName;
+}
+
+const myFunc = makeFunc();
+myFunc();
+```
+
+Here, it seems like code shouldn't work. In some programming languages, the **local variables** within a function exist for just the duration of that function's execution. Once `makeFunc()` finishes executing, you might expect that the `name` variable would no longer be accessible. But, **this is not the case in JavaScript**.
+
+The reason is that **functions in JavaScript form closures**. A **closure** is the combination of a **function** and the **lexical environment** within which that function was declared. This **environment** consists of any variables that were in-scope at the time the closure was created. In this case, `myFunc` is a reference to the instance of the function `displayName` that is created when `makeFunc` is run. The instance of `displayName` maintains a reference to its lexical environment, within which the variable `name` exists. For this reason, when `myFunc` is invoked, the variable `name` remains available for use, and "Mozilla" is passed to `console.log`.
 
 # If Else
 
@@ -329,44 +435,6 @@ So, the **AND** operator is only **true** if all the operands are **true**. As s
 > [!NOTE]
 > **AND** operator will return the **first falsy** value or the **last** value if all of operands are true.
 
-# Fat Arrow Functions
-
-> [!CAUTION]
-> Take care while using arrow function in the method of an object. **This** keyword represents global scope in arrow function not the object itself. Also, **arrow functions** cannot be **declared**; they can only be **expressed**. So, take care of **hoisting** while using arrow functions.
-
-```js
-const value = (name, age) => {
-  return `My name is ${name} and my age is ${age}.`;
-};
-
-console.log(value("Mathew", 22));
-```
-
-```js
-const cars = {
-  brands: ["Ford", "Audi", "BMW"],
-  category: "Sport car",
-  message: function () {
-    return this.brands.map((brand) => {
-      console.log(`${brand} is a ${this.category}.`);
-    });
-  },
-};
-
-cars.message();
-```
-
-# Default Function Arguments
-
-```js
-const cars = (brand = "Ford") => {
-  console.log(`My brand is ${brand}.`);
-};
-
-cars();
-cars("BMW");
-```
-
 # Object Literals
 
 ```js
@@ -404,7 +472,7 @@ Visit [Operator Precedence in MDN Docs](https://developer.mozilla.org/en-US/docs
 
 Assignment operators have lesser precedence than mathematical and other operators.
 
-# String and numbers
+# String
 
 ```js
 const plane = "A320A";
@@ -479,6 +547,43 @@ console.log(word.includes("me", 2)); // true
 
 **includes** is similar to **startsWith** and **endsWith**.
 
+# Number
+
+In **JavaScript**, all **numbers** are represented internally as **floating point** numbers. **Numbers** are always stored in the **binary format**.
+
+<!-- prettier-ignore -->
+> [!IMPORTANT]
+> It is more difficult to represent some **fractions** in **JavaScript**. So, **be aware** that we cannot do really **precise** scientific or financial calculations in **JavaScript**.
+
+```js
+console.log(0.1 + 0.2 === 0.3); // false
+console.log(Number("23")); // 23
+console.log(+"23"); // 23
+```
+
+```js
+console.log(Number.parseInt("30px")); // 30
+console.log(Number.parseInt("e32")); // Nan ; because always should start with integer in the string value
+console.log(Number.parseInt("2.5rem")); // 2
+
+console.log(Number.parseFloat("2.5rem")); // 2.5
+```
+
+```js
+console.log(Number.isNaN(20)); // false
+console.log(Number.isNaN("20")); // false
+console.log(Number.isNaN(+"20x")); // true
+```
+
+<!-- prettier-ignore -->
+> [!CAUTION]
+> `isNaN` is not a recommended or good way to **check** whether provided value is a **number or not**. The better way is to use `isFinite`.
+
+```js
+console.log(Number.isFinite(20)); // true
+console.log(Number.isFinite("20")); // false
+```
+
 ```js
 console.log(Number.isSafeInteger(200)); // true
 console.log(Number.isSafeInteger(0.022321)); //false
@@ -499,7 +604,76 @@ console.log(Math.trunc(-10.1)); // -10
 
 # Array and its Methods
 
-- ## Looping Backwards
+## Slice, Splice and Reverse
+
+```js
+let arr = ["a", "b", "c", "d", "e"];
+```
+
+```js
+console.log(arr.slice(2)); // ['c', 'd', 'e'] Returns a copy of a section of an array.
+console.log(arr.slice(2, 4)); //['c', 'd'] here end index is exclusive
+console.log(arr.slice(-1)); // ['e']
+```
+
+```js
+console.log(arr.splice(2)); // mutates original array too. remove and return ['c', 'd', 'e'] from original arr making it ['a', 'b'].
+arr.splice(-1); // removes last element of an  arr
+arr.splice(1, 2); // 2 elements will be removed starting from index 1
+```
+
+```js
+console.log(arr.reverse()); // It also mutates the original array making it ['e', 'd', 'c', 'b', 'a'].
+```
+
+## Flat and FlatMap
+
+```js
+const array = [[1, 2, 3], [4, 5, 6], 7, 8];
+console.log(array.flat()); // returns new array with all sub-array concatenated upto specified depth
+
+const arrayDeep = [[[1, 2], 3], [4, [5, 6]], 7, 8];
+console.log(arrayDeep.flat(2));
+```
+
+```js
+const accounts = [
+  {
+    owner: "Jonas",
+    movements: [200, -100, 340, -300, 50, 400, -150, 1300],
+  },
+  {
+    owner: "Jessica",
+    movements: [5000, 3400, -150, -790, -3210, -1000, 8500, -30],
+  },
+  {
+    owner: "Steven",
+    movements: [200, -200, 340, -300, -20, 50, 400, -460],
+  },
+  {
+    owner: "Sarah",
+    movements: [430, 1000, 700, 50, 90],
+  },
+];
+
+const overBalance = accounts
+  .flatMap((acc) => acc.movements) // flatten all movenent across accounts
+  .reduce((acc, mov) => acc + mov, 0);
+
+console.log(overBalance); // Output will be the sum of all movements
+```
+
+## Sorting Array
+
+```js
+const owners = ["Jonas", "Zach", "Adam", "Martha"];
+console.log(owners.sort());
+
+console.log(accounts.flatMap((acc) => acc.movements).sort((a, b) => a - b)); // ascending order
+console.log(accounts.flatMap((acc) => acc.movements).sort((a, b) => b - a)); // descending order
+```
+
+## Looping Backwards
 
 ```js
 for (let i = jonas.length - 1; i >= 0; i--) {
@@ -507,7 +681,31 @@ for (let i = jonas.length - 1; i >= 0; i--) {
 }
 ```
 
-- ## Loop in Loop
+## Array.from
+
+```js
+const y = Array.from({ length: 7 }, () => 1); // [1, 1, 1, 1, 1, 1, 1]
+
+const z = Array.from({ length: 7 }, (_, i) => i + 1); // [1, 2, 3, 4, 5, 6, 7]
+```
+
+```js
+const account = {
+  movements: [200, -100, 340, -300, 50, 400, -150, 1300],
+};
+
+const movementsUI = Array.from(document.querySelectorAll(".movements"), (el) =>
+  Number(el.textContent.replace("E", " ")),
+);
+console.log(movementsUI); // [1300, -150, 400, 50, -300, 340, -100, 200]
+
+const movementsUiWithSpread = [...document.querySelectorAll(".movements")].map(
+  (el) => el.textContent.replace("E", "$"),
+);
+console.log(movementsUiWithSpread); // ['$1300', '$-150', '$400', '$50', '$-300', '$340', '$-100', '$200']
+```
+
+## Loop in Loop
 
 ```js
 for (let exercise = 1; exercise < 4; exercise++) {
@@ -523,7 +721,7 @@ for (let exercise = 1; exercise < 4; exercise++) {
 > [!NOTE]
 > We have access to the variable of **outer loop** in **inner loop** too. Here, we can access **exercise** in **inner loop** too.
 
-- ## Complex Array and Filling an Array
+## Complex Array
 
 ```js
 const jonas = [
@@ -558,7 +756,17 @@ console.log(jonas[6].age);
 console.log(types);
 ```
 
-- ## Add Elements
+## Filling Array
+
+```js
+const x = new Array(7); // Create an array with 7 empty elements
+
+x.fill(1, 3, 5); // fills item 1 starting from index 3 and ends exclusively at index 5
+
+x.fill(1); // fills all the elements with 1
+```
+
+## Add Elements
 
 ```js
 const friends = ["Michcael", "Steve", "Peter"];
@@ -570,7 +778,7 @@ newLength = friends.unshift("John"); // add element at first position
 console.log(friends, newLength);
 ```
 
-- ## Remove Elements
+## Remove Elements
 
 ```js
 const friends = ["Michael", "Steve", "Peter"];
@@ -582,14 +790,14 @@ removedFriend = friends.shift(); // remove first element from an array
 console.log(friends, removedFriend);
 ```
 
-- ## Index Of
+## Index Of
 
 ```js
 const friends = ["Michael", "Steve", "Peter"];
 console.log(friends.indexOf("Steve")); // 1
 ```
 
-- ## Includes
+## Includes
 
 Return **true** if there is an element and return **false** if no element matches.
 
@@ -597,7 +805,7 @@ Return **true** if there is an element and return **false** if no element matche
 console.log(friends.includes("Bob")); // false
 ```
 
-- ## For Each
+## For Each
 
 ```js
 const artists = ["Clapton", "U2", "Bruno Mars", "Lamar"];
@@ -647,7 +855,7 @@ products.forEach((product) => {
 document.body.insertAdjacentHTML("beforeend", template);
 ```
 
-- ## Map
+## Map
 
 ```js
 const numbers = [1, 2, 3, 4];
@@ -697,7 +905,7 @@ const price = cars.map(function (car) {
 console.log(price);
 ```
 
-- ## Filter
+## Filter
 
 ```js
 const products = [
@@ -715,7 +923,7 @@ console.log(result);
 
 **filter** returns a new array containing the array elements that passed a specific test condition.
 
-- ## Find
+## Find
 
 ```js
 const brands = [
@@ -733,7 +941,7 @@ console.log(result);
 
 It returns the first element of an array that matches the condition.
 
-- ## Every & Some
+## Every & Some
 
 ```js
 const students = [
@@ -765,7 +973,7 @@ console.log(someStudentsPassedTheCourse);
 
 Returns boolean value.
 
-- ## Reduce
+## Reduce
 
 ```js
 const previous = 200;
@@ -818,7 +1026,7 @@ let osTypes = computers.reduce(
 console.log(osTypes);
 ```
 
-- ## For Of
+## For Of
 
 ```js
 const numbers = [10, 20, 30, 40, 50];
@@ -1010,6 +1218,75 @@ console.log(values);
 
 const entries = Object.entries(restaurant); // entire object
 console.log(entries);
+```
+
+# Call and Bind
+
+```js
+const lufthansa = {
+  airline: "Lufthansa",
+  iataCode: "LH",
+  bookings: [],
+  book(flightNum, name) {
+    console.log(
+      `${name} booked a seat on ${this.airline} flight ${this.iataCode} ${flightNum}`,
+    );
+    this.bookings.push({ flight: `${this.iataCode} ${flightNum}`, name });
+  },
+};
+
+const eurowings = {
+  airline: "Eurowings",
+  iataCode: "EW",
+  bookings: [],
+};
+```
+
+```js
+lufthansa.book(239, "Jonas Schmedtmann");
+console.log(lufthansa);
+```
+
+```js
+const book = lufthansa.book;
+
+book.call(eurowings, 23, "Sarah Williams"); // calls a method of an object substituting another object for current object
+console.log(eurowings);
+
+book.call(lufthansa, 239, "Mary Cooper");
+console.log(lufthansa);
+```
+
+```js
+const bookEW = book.bind(eurowings); // this keyword inside the function refer to provided object
+const bookLH = book.bind(lufthansa);
+
+bookEW(23, "Steven Williams");
+
+const bookEW23 = book.bind(eurowings, 23);
+bookEW23("Jonas Schmedtmann");
+```
+
+```js
+lufthansa.planes = 300;
+lufthansa.buyPlane = function () {
+  console.log(this);
+  this.planes++;
+  console.log(this.planes);
+};
+
+eurowings.planes = 10;
+const bought = lufthansa.buyPlane.bind(eurowings);
+bought();
+```
+
+```js
+const addTax = (rate, value) => value + value * rate;
+console.log(addTax(0.1, 200)); // 220
+
+const addVAT = addTax.bind(null, 0.23);
+console.log(addVAT(100)); // 123
+console.log(addVAT(23)); // 28.29
 ```
 
 # Optional Chaining
@@ -1300,4 +1577,26 @@ document.querySelector(".check").addEventListener("click", function () {
 ```js
 addEventListener(event, function); // adds an event
 removeEventListener(event, function); // removes an event
+```
+
+## Creating DOM Elements
+
+```js
+const account = {
+  movements: [200, -100, 340, -300, 50, 400, -150, 1300],
+};
+
+const displayMovements = function (movements) {
+  movements.forEach((mov, i) => {
+    const html = `
+      <div class="movement_row">
+        <div class="movement_type">${i + 1}</div>
+        <div class="movements_value">${mov}</div>
+      </div>
+    `;
+    document.querySelector(".product").insertAdjacentHTML("afterbegin", html);
+  });
+};
+
+displayMovements(account.movements);
 ```

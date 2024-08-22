@@ -51,3 +51,20 @@ const maskCreditCard = function (number) {
 };
 
 console.log(maskCreditCard(64784473837));
+
+console.log(0.1 + 0.2 === 0.3); // false
+console.log(Number("23"));
+console.log(+"23"); // 23
+
+console.log(Number.parseInt("30px")); // 30
+console.log(Number.parseInt("e32")); // Nan ; because always should start with integer in the string value
+console.log(Number.parseInt("2.5rem")); // 2
+
+console.log(Number.parseFloat("2.5rem")); // 2.5
+
+console.log(Number.isNaN(20)); // false
+console.log(Number.isNaN("20")); // false
+console.log(Number.isNaN(+"20x")); // true
+
+console.log(Number.isFinite(20)); // true
+console.log(Number.isFinite("20")); // false
