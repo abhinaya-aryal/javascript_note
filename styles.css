@@ -1,0 +1,135 @@
+@import url("https://fonts.googleapis.com/css?family=Open+Sans&display=swap");
+
+:root {
+  --black: #111111;
+  --white: #eeeeee;
+}
+
+* {
+  scroll-behavior: smooth;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  color: #111111;
+  background-color: var(--white);
+  font-family: Open Sans, sans-serif;
+}
+
+nav {
+  width: 290px;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: var(--white);
+  border-right: 2px solid var(--black);
+  z-index: 1;
+}
+
+nav > ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+nav > ul > li {
+  border-top: 1px solid var(--black);
+  width: 100%;
+}
+
+nav > ul > li > a {
+  color: var(--black);
+  text-decoration: none;
+  font-size: 16px;
+  display: block;
+  padding: 10px 20px;
+}
+
+main {
+  margin-left: 290px;
+  padding: 0 20px;
+}
+
+main > section {
+  padding: 0 0 30px;
+}
+
+main > section:first-of-type {
+  padding-top: 20px;
+}
+
+main > section:last-of-type {
+  padding-bottom: 20px;
+}
+
+main > section > article {
+  padding-left: 20px;
+  font-size: 16px;
+  letter-spacing: 0.5px;
+  line-height: 24px;
+}
+
+main > section > article > p {
+  margin: 0 0 20px;
+}
+
+header {
+  font-size: 28px;
+  font-weight: bolder;
+  margin-bottom: 10px;
+}
+
+main li {
+  margin: 10px 0;
+}
+
+main pre {
+  margin-bottom: 20px;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: var(--white);
+  padding: 20px;
+  border-radius: 4px;
+  white-space: break-spaces;
+}
+
+main a {
+  color: blue;
+}
+
+nav > header {
+  padding: 10px 20px;
+}
+
+@media (max-width: 850px) {
+  nav {
+    position: absolute;
+    top: 0;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    max-height: 275px;
+    border: none;
+    border-bottom: 2px solid var(--black);
+    display: block;
+  }
+
+  nav > header {
+    text-align: center;
+  }
+
+  nav > ul {
+    overflow-y: scroll;
+    height: 207px;
+  }
+
+  nav > ul > li:first-of-type {
+    border-top: 2px solid var(--black);
+  }
+
+  main {
+    position: relative;
+    margin-left: 0px;
+    margin-top: 270px;
+  }
+}

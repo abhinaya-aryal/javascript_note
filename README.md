@@ -1728,6 +1728,52 @@ const [camaro, ...rest] = cars;
 console.log(rest);
 ```
 
+# Timers, Set Timeout and Set Interval
+
+`setTimeout` timer runs just **once** after a **defined time** while the `setInterval` timer **keeps** running basically forever until we **stop** it.
+
+So, basically we can use `setTimeout` to **execute** some code at **some point** in the future.
+
+```js
+setTimeout(() => {
+  console.log("Here is your pizza");
+}, 3000); // execute the callback function after 3 sec
+
+const pizza = setTimeout(
+  (ing1, ing2) => console.log(`Here is your Pizza with ${ing1} and ${ing2}`),
+  3000,
+  "olives", // argument ing1
+  "spinach", // argument ing2
+);
+```
+
+```js
+let ing2 = "spinach";
+
+if (ing2 === "spinach") {
+  clearTimeout(pizza); // cancels the queued setTimeout function called pizza
+}
+```
+
+```js
+setInterval(function () {
+  const now = new Date();
+  console.log(now);
+}, 1000); // executes in every 1 sec
+
+let time = 120;
+
+const timer = setInterval(function () {
+  const min = String(Math.trunc(time / 60)).padStart(2, 0);
+  const sec = String(time % 60).padStart(2, 0);
+  console.log(`${min}:${sec}`);
+  time--;
+  if (time === 0) {
+    clearInterval(timer); // removes the setinterval timer
+  }
+}, 1000);
+```
+
 # Promises and Fetch
 
 ```js
@@ -1744,6 +1790,14 @@ fetch(url)
 ```js
 let data = document.querySelector(".message").textContent;
 console.log(data);
+
+document.querySelector(".header").textContent = "You're Welcome!";
+document.querySelector(".check").addEventListener("click", function () {
+  console.log("I am clicked");
+});
+
+addEventListener(event, function); // adds an event
+removeEventListener(event, function); // removes an event
 ```
 
 **DOM** stands for **Document Object Model** and it is basically a **structured representation of HTML document**. The **DOM** allows us to use **JavaScript to access HTML elements** and **styles** in order to manipulate them.
@@ -1757,22 +1811,52 @@ So, **DOM** is basically a **connection point** between **HTML documents** and *
 > [!NOTE]
 > Most of us believe that the **DOM** and its methods and properties are actually **part of JavaScript**. However,this is **not the case**. **JavaScript** is actually just a dialect of the **ECMAScript specification**. The **DOM** and **its methods** are actually part of something called the **Web APIs**. So, the **Web APIs** are like libraries that **browsers** implement and that we can access from our **JavaScript code**. **Web APIs** are basically a libraries that are also written in **JavaScript** and are automatically available for **us to use**.
 
+## Selecting DOM Elements
+
 ```js
-document.querySelector(".header").textContent = "You're Welcome!";
+console.log(document.documentElement);
+document.head;
+document.body;
+
+document.querySelector(".header"); // returns the first element having header as a class
+document.querySelectorAll(".nice"); // select all the elements having nice as a class
 ```
 
 ```js
-document.querySelector(".check").addEventListener("click", function () {
-  console.log("I am clicked");
-});
+document.getElementById("id");
+document.getElementsByTagName("button");
+document.getElementsByClassName("class");
+```
+
+Here, `getElementsByTagName` and `getElementsByClassName` will return an **array** of **HTML collections**. i.e. the list of array gets **updated** with any change in the elements in that array.
+
+## Creating and Deleting DOM Elements
+
+```js
+const message = document.createElement("div");
+message.classList.add("cookie-message");
+message.innerHTML =
+  "We use cookies to improve functionality. <button class='btn'> Got it! </button>";
+```
+
+We should **insert** this element manually to **DOM**.
+
+```js
+const header = document.querySelector(".header");
+
+header.prepend(message); // adds message as first child of header
+header.append(message); // adds message as last child of header
+```
+
+Here, **message** element is **not** shown at two place i.e. is **only** shown as last child. We should do `element.cloneNode(true)` to use the element in **multiple places**. This will **copy** all the child element and then create a **duplicate** element in **DOM**.
+
+```js
+header.append(message.cloneNode(true));
 ```
 
 ```js
-addEventListener(event, function); // adds an event
-removeEventListener(event, function); // removes an event
+message.remove(); // delete elements from the DOM
 ```
-
-## Creating DOM Elements
 
 ```js
 const account = {
@@ -1793,3 +1877,69 @@ const displayMovements = function (movements) {
 
 displayMovements(account.movements);
 ```
+
+## Styles, Attributes and Class
+
+```js
+message.style.backgroundColor = "#a0047d";
+message.style.width = "100%";
+```
+
+Here, in this way **styles** are actually set as **inline styles**.
+
+```js
+console.log(getComputedStyle(message).backgroundColor); // to get the css style of elements
+
+document.documentElement.style.setProperty("--color-primary", "orangered"); // declaring css variable
+```
+
+```js
+message.setAttribute("org", "Owner"); // set attribute org with value Owner
+console.log(message.getAttribute("org")); // to get the value of org attribute
+```
+
+```js
+message.classList.add("message");
+message.classList.remove("cookie-message");
+message.classList.toggle("cookie-message");
+console.log(message.classList.contains("cookie-message"));
+```
+
+```js
+console.log(scrollX, scrollY); // give the current scroll position
+console.log(window.scrollX, window.scrollY); // same as above
+```
+
+```js
+console.log(
+  document.documentElement.clientHeight,
+  document.documentElement.clientWidth,
+); // give the height and width of element
+```
+
+## Implement Smooth Scrolling
+
+```js
+const lastSection = document.querySelector("#Reference");
+```
+
+```js
+const lastSectionCords = lastSection.getBoundingClientRect();
+```
+
+Here, `getBoundingClientRect` returns the **position** of element in the **DOM** with reference to the **viewport** and not to the top of webpage. **Viewport** refers to area of webpage that is **currently visible**. So, `getBoundingClientRect` returns the **distance** of element from **current visible area** therefore, we need to **add** the current scrollposition to that distance to scroll to that element. Now, we can derive **current scroll position** and then add it to the **viewport** coordinate to get the distance from the **top of the webpage** and not **from the viewport**.
+
+```js
+window.scrollTo({
+  left: lastSectionCords.left + window.scrollX,
+  top: lastSectionCords.top + window.scrollY,
+  behavior: "smooth",
+});
+```
+
+<!-- prettier-ignore -->
+> [!IMPORTANT]
+> This is a kind of the **old schoolway**. Here, we have **manually** calculate all these values and then **scrolling** to that position. But there is a more modern way of doing this.
+> ```js
+> lastSection.scrollIntoView({ behavior: "smooth" });
+> ```
