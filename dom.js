@@ -76,3 +76,9 @@ console.log(
   document.documentElement.clientHeight,
   document.documentElement.clientWidth,
 ); // give the height and width of element
+
+document.querySelector(".button").addEventListener("click", function (e) {
+  this.style.backgroundColor = "rgb(255, 0, 0)";
+  console.log("Button Clicked");
+  e.stopPropagation();
+});

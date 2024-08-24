@@ -1792,6 +1792,7 @@ let data = document.querySelector(".message").textContent;
 console.log(data);
 
 document.querySelector(".header").textContent = "You're Welcome!";
+
 document.querySelector(".check").addEventListener("click", function () {
   console.log("I am clicked");
 });
@@ -1917,13 +1918,41 @@ console.log(
 ); // give the height and width of element
 ```
 
+## DOM Traversing
+
+**DOM Traversing** is basically walking through the DOM. It means that we can **select** an element based on **another** element. This is very important because sometimes we need to select an element **relative** to certain other element.
+
+```js
+const ul = document.querySelector("ul");
+
+ul.querySelectorAll(".nav-link"); // go deeper to the nested children of ul and select element
+
+ul.childNodes; // nodelists of direct children
+ul.children; // HTML collections of direct children which is live updated
+
+ul.firstElementChild;
+ul.lastElementChild;
+
+ul.firstChild;
+ul.lastChild;
+
+ul.parentNode;
+ul.parentElement; // same as parentNode
+
+ul.closest(".test").style.background = "var(--secondary-color)"; // traverses up the dom tree until it find ancestor element with provided selector
+
+ul.previousElementSibling;
+ul.nextElementSibling;
+
+ul.previousSibling;
+ul.nextSibling;
+```
+
 ## Implement Smooth Scrolling
 
 ```js
 const lastSection = document.querySelector("#Reference");
-```
 
-```js
 const lastSectionCords = lastSection.getBoundingClientRect();
 ```
 
@@ -1939,7 +1968,66 @@ window.scrollTo({
 
 <!-- prettier-ignore -->
 > [!IMPORTANT]
-> This is a kind of the **old schoolway**. Here, we have **manually** calculate all these values and then **scrolling** to that position. But there is a more modern way of doing this.
+> This is a kind of the **old schoolway**. Here, we have **manually** calculate all these values and then **scroll** to that position. But there is a more modern way of doing this:-
 > ```js
 > lastSection.scrollIntoView({ behavior: "smooth" });
 > ```
+
+## Events Propagation
+
+When we attach the **eventListener** to any element, then the **event** is in global scope of the **DOM**. Then, it **travels** down to the element where it is attached. And after **event** it **travels** along the parent element throughout the **DOM tree**.
+
+When an **event** is triggered, it starts from the **root** of the DOM tree and then **moves** down towards the **target element**. By default **event handlers** are not executed in this phase. When the event **reaches** target element, the particular event attached to that element get executed. After that, event **traces back its path** and moves back up to the **root of DOM**. If **parent element** also have same **event** then, that too executes as **event** bubbles up toward root.
+
+<!-- prettier-ignore -->
+```html
+<div>   -----------------------------
+  <div>   ------------------         |
+    <div></div>   ----3     |---2    |----1
+  </div>  ------------------         |
+</div>  -----------------------------
+```
+
+Here, if we attach a `click` event to all of the **_1_**, **_2_** and **_3_**, then the event will run on **all the three element** while clicking **element _3_** due to the **event bubbling**. First handler attached with **_3_** gets executed, then while **bubbling up** handler attached to **_2_** and **_1_** also gets executed.
+
+We can stop this **flow of event** by using `event.stopPropagation()`.
+
+```js
+document.querySelector(".button").addEventListener("click", function (e) {
+  this.style.backgroundColor = "rgb(255, 0, 0)";
+  console.log("Button Clicked");
+  e.stopPropagation();
+});
+```
+
+It is not **recommended** to use `stopPropagation()` everywhere. Just use when it is highly required.
+
+## Event Delegation
+
+```js
+document.querySelectorAll(".nav-link").forEach(function (el) {
+  el.addEventListener("click", function (e) {
+    e.preventDefault();
+    const id = this.getAttribute("section");
+    console.log(id);
+    document.getElementById(id).scrollIntoView({ behavior: "smooth" });
+  });
+});
+```
+
+This is the normal way of **attaching event**. But, the problem on doing this is that it is **not really efficient**. Here, we are adding a same **callback function** once to each of the element. It would be fine for **less number of elements** but what if we had **1,000 or 10,000** elements. If we attach event handler to **10,000** elements like this, then we would effectively be creating 10,000 **copies** of same function. And, it will certainly **impact the performance**.
+
+The better **solution** for this is to use **event delegation**. So, in **event delegation** we basically add the **event listener** to a **common parent element** of all the elements that we are **interested in**.
+
+```js
+document.querySelector("ul").addEventListener("click", function (e) {
+  e.preventDefault();
+  if (e.target.classList.contains("nav-link")) {
+    const id = e.target.getAttribute("section");
+    console.log(id);
+    document.getElementById(id).scrollIntoView({ behavior: "smooth" });
+  }
+});
+```
+
+Here, `event.target` is the HTML element that **triggered an event**.
