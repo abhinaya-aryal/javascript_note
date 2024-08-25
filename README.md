@@ -240,6 +240,22 @@ switch (day) {
 > [!IMPORTANT]
 > If **multiiple cases** matches a case value, the **first case** is selected. If **no matching cases** found, the program continues to **default label**. If **no default label** found, program continues **after the switch** statement.
 
+## Loop in Loop
+
+```js
+for (let exercise = 1; exercise < 4; exercise++) {
+  console.log(`---Starting exercise ${exercise}---`);
+
+  for (let rep = 1; rep < 6; rep++) {
+    console.log(`Lifting weight ${rep} times`);
+  }
+}
+```
+
+<!-- prettier-ignore -->
+> [!NOTE]
+> We have access to the variable of **outer loop** in **inner loop** too. Here, we can access **exercise** in **inner loop** too.
+
 # Truthy and Falsy Values
 
 The falsy values on **JavaScript** are:-
@@ -446,37 +462,6 @@ So, the **AND** operator is only **true** if all the operands are **true**. As s
 <!-- prettier-ignore -->
 > [!NOTE]
 > **AND** operator will return the **first falsy** value or the **last** value if all of operands are true.
-
-# Object Literals
-
-```js
-const createCharacter = (name, powers) => {
-  return {
-    name,
-    powers,
-    getFriends() {
-      return "Luis Lane";
-    },
-    getEnemies() {
-      return "Skeletor";
-    },
-  };
-};
-
-const characterObj = createCharacter("Superman", "Fly");
-
-console.log(characterObj);
-
-console.log(characterObj.getFriends());
-```
-
-```js
-var createObject = (name, lastname, age) => {
-  return { name, lastname, age };
-};
-
-console.log(createObject("Avi", "Aryal", 20));
-```
 
 # Operator Precedence
 
@@ -897,22 +882,6 @@ const movementsUiWithSpread = [...document.querySelectorAll(".movements")].map(
 );
 console.log(movementsUiWithSpread); // ['$1300', '$-150', '$400', '$50', '$-300', '$340', '$-100', '$200']
 ```
-
-## Loop in Loop
-
-```js
-for (let exercise = 1; exercise < 4; exercise++) {
-  console.log(`---Starting exercise ${exercise}---`);
-
-  for (let rep = 1; rep < 6; rep++) {
-    console.log(`Lifting weight ${rep} times`);
-  }
-}
-```
-
-<!-- prettier-ignore -->
-> [!NOTE]
-> We have access to the variable of **outer loop** in **inner loop** too. Here, we can access **exercise** in **inner loop** too.
 
 ## Complex Array
 
@@ -1371,6 +1340,37 @@ However, there is still a **problem** because using this technique of `Object.as
 That's why, we say that this `Object.assign()` only creates a **shallow copy** and **not a deep clone** which is what we would like to have. So, a **shallow copy** will only copy the properties in the first level while **deep clone** would copy everything.
 
 Now, a **deep clone** is what we would need here but it is not easy to achieve. Usually, we do **deep clone** using **external library** such as **_Lo-Dash_**.
+
+# Object Literals
+
+```js
+const createCharacter = (name, powers) => {
+  return {
+    name,
+    powers,
+    getFriends() {
+      return "Luis Lane";
+    },
+    getEnemies() {
+      return "Skeletor";
+    },
+  };
+};
+
+const characterObj = createCharacter("Superman", "Fly");
+
+console.log(characterObj);
+
+console.log(characterObj.getFriends());
+```
+
+```js
+var createObject = (name, lastname, age) => {
+  return { name, lastname, age };
+};
+
+console.log(createObject("Avi", "Aryal", 20));
+```
 
 # Object Keys, Values and Entries
 
@@ -1948,31 +1948,6 @@ ul.previousSibling;
 ul.nextSibling;
 ```
 
-## Implement Smooth Scrolling
-
-```js
-const lastSection = document.querySelector("#Reference");
-
-const lastSectionCords = lastSection.getBoundingClientRect();
-```
-
-Here, `getBoundingClientRect` returns the **position** of element in the **DOM** with reference to the **viewport** and not to the top of webpage. **Viewport** refers to area of webpage that is **currently visible**. So, `getBoundingClientRect` returns the **distance** of element from **current visible area** therefore, we need to **add** the current scrollposition to that distance to scroll to that element. Now, we can derive **current scroll position** and then add it to the **viewport** coordinate to get the distance from the **top of the webpage** and not **from the viewport**.
-
-```js
-window.scrollTo({
-  left: lastSectionCords.left + window.scrollX,
-  top: lastSectionCords.top + window.scrollY,
-  behavior: "smooth",
-});
-```
-
-<!-- prettier-ignore -->
-> [!IMPORTANT]
-> This is a kind of the **old schoolway**. Here, we have **manually** calculate all these values and then **scroll** to that position. But there is a more modern way of doing this:-
-> ```js
-> lastSection.scrollIntoView({ behavior: "smooth" });
-> ```
-
 ## Events Propagation
 
 When we attach the **eventListener** to any element, then the **event** is in global scope of the **DOM**. Then, it **travels** down to the element where it is attached. And after **event** it **travels** along the parent element throughout the **DOM tree**.
@@ -2031,3 +2006,415 @@ document.querySelector("ul").addEventListener("click", function (e) {
 ```
 
 Here, `event.target` is the HTML element that **triggered an event**.
+
+## Implement Smooth Scrolling
+
+```js
+const lastSection = document.querySelector("#Reference");
+
+const lastSectionCords = lastSection.getBoundingClientRect();
+```
+
+Here, `getBoundingClientRect` returns the **position** of element in the **DOM** with reference to the **viewport** and not to the top of webpage. **Viewport** refers to area of webpage that is **currently visible**. So, `getBoundingClientRect` returns the **distance** of element from **current visible area** therefore, we need to **add** the current scrollposition to that distance to scroll to that element. Now, we can derive **current scroll position** and then add it to the **viewport** coordinate to get the distance from the **top of the webpage** and not **from the viewport**.
+
+```js
+window.scrollTo({
+  left: lastSectionCords.left + window.scrollX,
+  top: lastSectionCords.top + window.scrollY,
+  behavior: "smooth",
+});
+```
+
+<!-- prettier-ignore -->
+> [!IMPORTANT]
+> This is a kind of the **old schoolway**. Here, we have **manually** calculate all these values and then **scroll** to that position. But there is a more modern way of doing this:-
+> ```js
+> lastSection.scrollIntoView({ behavior: "smooth" });
+> ```
+
+## Tabbed Component
+
+```html
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tab Navigation</title>
+  </head>
+  <body>
+    <!-- Button container -->
+    <div class="btn_container">
+      <button class="btn" data-tab="1">Tab 1</button>
+      <button class="btn" data-tab="2">Tab 2</button>
+      <button class="btn" data-tab="3">Tab 3</button>
+    </div>
+
+    <!-- Content sections -->
+    <div class="content content_active content_1">Content for Tab 1</div>
+    <div class="content content_2">Content for Tab 2</div>
+    <div class="content content_3">Content for Tab 3</div>
+  </body>
+</html>
+```
+
+```css
+.btn_container {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+/* Style for the buttons */
+.btn {
+  padding: 10px 20px;
+  background-color: #ccc;
+  border: none;
+  cursor: pointer;
+}
+
+/* Style for the active button */
+.button_active {
+  background-color: #007bff;
+  color: white;
+}
+
+/* Style for the content sections */
+.content {
+  display: none;
+  padding: 20px;
+  border: 1px solid #ccc;
+}
+
+/* Style for the active content */
+.content_active {
+  display: block;
+}
+```
+
+```js
+const buttons = document.querySelectorAll(".btn");
+const buttonContainer = document.querySelector(".btn_container");
+const tabContent = document.querySelectorAll(".content");
+
+buttonContainer.addEventListener("click", function (e) {
+  const clicked = e.target.closest("button");
+  console.log(clicked);
+
+  if (!clicked) return;
+
+  buttons.forEach((b) => b.classList.remove("button_active"));
+  clicked.classList.add("button_active");
+
+  tabContent.forEach((content) => content.classList.remove("content_active"));
+
+  document
+    .querySelector(`.content_${clicked.dataset.tab}`)
+    .classList.add("content_active");
+});
+```
+
+## Passing Arguments to Event Handler
+
+Consider a scenario in web application where the content displayed to the user needs to **change** based on their interactions.
+
+```js
+let dynamicContent = "This is a dynamic content based on user actions.";
+
+btn.addEventListener("click", doSomething(dynamicContent));
+
+function doSomething(dynamicContent) {
+  someElement.innerText = dynamicContent;
+}
+```
+
+However, attempting to **directly** pass `dynamicContent` as an argument to event handler in this manner leads to stumbling block. This approach prematurely executes `doSomething` function upon the page's load rather than waiting for button click. When we append **parentheses** to a function name `doSomething()`, JavaScript interprets this as an instruction to execute the function **immediately**.
+
+The **solution** to this problem lies in the strategic use of **anonymous function**.
+
+```js
+btn.addEventListener("click", function () {
+  doSomething(dynamicContent);
+});
+
+btn.addEventListener("click", () => {
+  doSomething(dynamicContent);
+});
+```
+
+```js
+let messages = {
+  save: "Your work has been saved successfully.",
+  delete: "The item has been deleted.",
+  update: "Your changes have been updated.",
+};
+
+function updateMessage(action) {
+  document.getElementById("messageDisplay").innerText = messages[action];
+}
+
+document
+  .getElementById("saveButton")
+  .addEventListener("click", () => updateMessage("save"));
+document
+  .getElementById("deleteButton")
+  .addEventListener("click", () => updateMessage("delete"));
+document
+  .getElementById("updateButton")
+  .addEventListener("click", () => updateMessage("update"));
+```
+
+## Intersection Observer
+
+```html
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sticky Navigation</title>
+  </head>
+  <body>
+    <!-- Header section -->
+    <div class="header">
+      <h1>Welcome to My Website</h1>
+      <p>Scroll down to see the sticky navigation bar.</p>
+    </div>
+
+    <!-- Navigation bar -->
+    <nav class="nav">
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Services</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </nav>
+
+    <!-- Main content section -->
+    <div class="content">
+      <h2>Content Section</h2>
+      <p>Some content here...</p>
+    </div>
+  </body>
+</html>
+```
+
+```css
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.header {
+  background-color: #f4f4f4;
+  padding: 50px;
+  text-align: center;
+}
+
+.nav {
+  background-color: #333;
+  padding: 15px;
+  color: white;
+  text-align: center;
+  position: relative; /* Initially relative; becomes fixed when sticky */
+  transition: all 0.3s;
+}
+
+.nav.sticky {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000; /* Ensures the nav stays above other content */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.content {
+  padding: 20px;
+}
+
+/* Just for demonstration: Add some height to the content */
+.content {
+  height: 2000px;
+  background-color: #e2e2e2;
+}
+```
+
+```js
+const header = document.querySelector(".header");
+const nav = document.querySelector(".nav");
+const navHeight = nav.getBoundingClientRect().height;
+
+const stickyNav = function (entries) {
+  const [entry] = entries;
+  console.log(entry);
+  if (!entry.isIntersecting) {
+    nav.classList.add("sticky");
+  } else {
+    nav.classList.remove("sticky");
+  }
+};
+
+const headerObserver = new IntersectionObserver(stickyNav, {
+  root: null,
+  threshold: 0,
+  rootMargin: `-${navHeight}px`,
+});
+
+headerObserver.observe(header);
+```
+
+## Revealing Elements on Scroll
+
+```html
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Reveal Sections on Scroll</title>
+  </head>
+  <body>
+    <!-- Sections to reveal on scroll -->
+    <div class="section section-1">
+      <h2>Section 1</h2>
+      <p>This is the first section. It will be revealed as you scroll down.</p>
+    </div>
+    <div class="section section-2">
+      <h2>Section 2</h2>
+      <p>This is the second section. It will be revealed as you scroll down.</p>
+    </div>
+    <div class="section section-3">
+      <h2>Section 3</h2>
+      <p>This is the third section. It will be revealed as you scroll down.</p>
+    </div>
+    <div class="section section-4">
+      <h2>Section 4</h2>
+      <p>This is the fourth section. It will be revealed as you scroll down.</p>
+    </div>
+    <div class="section section-5">
+      <h2>Section 5</h2>
+      <p>This is the fourth section. It will be revealed as you scroll down.</p>
+    </div>
+    <div class="section section-6">
+      <h2>Section 6</h2>
+      <p>This is the fourth section. It will be revealed as you scroll down.</p>
+    </div>
+    <div class="section section-7">
+      <h2>Section 7</h2>
+      <p>This is the fourth section. It will be revealed as you scroll down.</p>
+    </div>
+  </body>
+</html>
+```
+
+```css
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f0f0f0;
+}
+
+.section {
+  opacity: 0;
+  transform: translateY(50px);
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s ease;
+  padding: 100px;
+  margin: 50px 0;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.section-hidden {
+  opacity: 0;
+  transform: translateY(50px); /* Initial state: hidden and translated */
+}
+
+.section-visible {
+  opacity: 1;
+  transform: translateY(0); /* Revealed state: visible and in place */
+}
+```
+
+```js
+const allSections = document.querySelectorAll(".section");
+
+const revealSection = function (entries, observer) {
+  const [entry] = entries;
+
+  // If the section is not intersecting, return
+  if (!entry.isIntersecting) return;
+
+  // Remove hidden class and add visible class
+  entry.target.classList.remove("section-hidden");
+  entry.target.classList.add("section-visible");
+
+  // Stop observing the current section
+  observer.unobserve(entry.target);
+};
+
+const sectionObserver = new IntersectionObserver(revealSection, {
+  root: null,
+  threshold: 0.15,
+});
+
+allSections.forEach(function (section) {
+  // Observe each section
+  sectionObserver.observe(section);
+
+  // Add hidden class initially
+  section.classList.add("section-hidden");
+
+  // Check if the section is already visible on page load and make it visible if it is
+  if (section.getBoundingClientRect().top < window.innerHeight) {
+    section.classList.remove("section-hidden");
+    section.classList.add("section-visible");
+    sectionObserver.unobserve(section);
+  }
+});
+```
+
+## Lazy Loading Images
+
+```html
+<img
+  src="img/digigal-lazy.jpg"
+  data-src="img/digital.jpg"
+  alt="Computer"
+  class="features_img lazy_img"
+/>
+```
+
+```js
+const imgTargets = document.querySelectorAll("img[data-src]");
+
+const loadImg = function (entries, observer) {
+  const [entry] = entries;
+  console.log(entry);
+
+  if (!entry.isIntersecting) return;
+
+  entry.target.src = entry.target.dataset.src;
+
+  entry.target.addEventListener("load", function () {
+    entry.target.classList.remove("lazy-img");
+  });
+
+  observer.unobserve(entry.target);
+};
+
+const imgObserver = new IntersectionObserver(loadImg, {
+  root: null,
+  threshold: 0,
+  rootMargin: "200px",
+});
+
+imgTargets.forEach((img) => imgObserver.observe(img));
+```
+
+## Building a Slider Component
