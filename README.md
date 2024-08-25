@@ -2418,3 +2418,185 @@ imgTargets.forEach((img) => imgObserver.observe(img));
 ```
 
 ## Building a Slider Component
+
+```html
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Image Slider</title>
+  </head>
+  <body>
+    <div class="slider">
+      <button class="slider-btn-left">&#10094;</button>
+      <div class="slide slide-1 slide-active">
+        <img
+          src="https://via.placeholder.com/800x300/FF5733/FFFFFF?text=Slide+1"
+          alt="Slide 1"
+        />
+      </div>
+      <div class="slide slide-2">
+        <img
+          src="https://via.placeholder.com/800x300/33FF57/FFFFFF?text=Slide+2"
+          alt="Slide 2"
+        />
+      </div>
+      <div class="slide slide-3">
+        <img
+          src="https://via.placeholder.com/800x300/3357FF/FFFFFF?text=Slide+3"
+          alt="Slide 3"
+        />
+      </div>
+      <div class="slide slide-4">
+        <img
+          src="https://via.placeholder.com/800x300/FF33A5/FFFFFF?text=Slide+4"
+          alt="Slide 4"
+        />
+      </div>
+      <button class="slider-btn-right">&#10095;</button>
+    </div>
+  </body>
+</html>
+```
+
+```css
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f0f0f0;
+}
+
+.slider {
+  position: relative;
+  width: 60%;
+  height: 300px;
+  overflow: hidden;
+}
+
+.slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.slide-active {
+  opacity: 1;
+}
+
+.slider-btn-left,
+.slider-btn-right {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  border: none;
+  color: white;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+  z-index: 1;
+}
+
+.slider-btn-left {
+  left: 10px;
+}
+
+.slider-btn-right {
+  right: 10px;
+}
+```
+
+```js
+const slides = document.querySelectorAll(".slide");
+const btnLeft = document.querySelector(".slider-btn-left");
+const btnRight = document.querySelector(".slider-btn-right");
+
+let curSlide = 0;
+const maxSlide = slides.length;
+
+const gotoSlide = function (slide) {
+  slides.forEach((s, i) => {
+    s.classList.remove("slide-active");
+    if (i === slide) {
+      s.classList.add("slide-active");
+    }
+  });
+};
+
+const nextSlide = function () {
+  curSlide = curSlide === maxSlide - 1 ? 0 : curSlide + 1;
+  gotoSlide(curSlide);
+};
+
+const prevSlide = function () {
+  curSlide = curSlide === 0 ? maxSlide - 1 : curSlide - 1;
+  gotoSlide(curSlide);
+};
+
+btnRight.addEventListener("click", nextSlide);
+btnLeft.addEventListener("click", prevSlide);
+
+document.addEventListener("keydown", function (e) {
+  if (e.key === "ArrowLeft") prevSlide();
+  if (e.key === "ArrowRight") nextSlide();
+});
+```
+
+## Lifecycle DOM Events
+
+```js
+document.addEventListener("DOMContentLoaded", function (e) {
+  console.log("HTML parsed and DOM tree built", e);
+});
+```
+
+Another is **load** event. **Load event** is fired by the **window** as soon as not only the HTML is **parsed** but also all the **images and external resources like CSS files** are loaded. So, basically when the **complete page** has finished loading, then the **load event** will be fired.
+
+```js
+window.addEventListener("load", function (e) {
+  console.log("Page fully loaded", e);
+});
+```
+
+The `beforeunload` event is fired when the current window, contained document and associated resources are about to be unloaded. The main usecase for this event is to trigger a browser-generated **confirmation dialog** that asks user to confirm if they really want to leave the page when they try to **close or reload it, or navigate** somewhere else. This is intended to help **prevent** loss of unsaved data.
+
+The dialog can be triggered by calling the event object's `preventDefault()` method.
+
+```js
+window.addEventListener("beforeunload", function (e) {
+  e.preventDefault();
+  console.log("You are trying to close the site", e);
+});
+```
+
+## Script Tag Defer and Async
+
+```mermaid
+block-beta
+  columns 3
+  a["Parsing HTML"] space c["Finish Parsing HTML"]
+  a--"Waiting"--->c
+  space
+  block
+  columns 2
+  d["Fetch Script"] e["Execute"]
+  end
+  space
+```
