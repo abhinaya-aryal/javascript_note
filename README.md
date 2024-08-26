@@ -2588,7 +2588,7 @@ window.addEventListener("beforeunload", function (e) {
 
 # Script Tag Defer and Async
 
-## Regular in Head
+## Regular
 
 ```html
 <head>
@@ -2596,21 +2596,6 @@ window.addEventListener("beforeunload", function (e) {
   <script src="script.js"></script>
 </head>
 ```
-
-```mermaid
-%%{init: {'theme':'dark'}}%%
-block-beta
-  columns 3
-  a["Parsing HTML"] space b["Finish Parsing HTML"]
-  a--"Waiting"--->b
-  space
-  block
-  columns 3
-  c["Fetch Script"] d["Execute"]
-  end
-```
-
-## Regular in Body
 
 ```html
 <body>
@@ -2622,10 +2607,11 @@ block-beta
 ```mermaid
 %%{init: {'theme':'dark'}}%%
 block-beta
-  columns 5
-  a["Parsing HTML"] space b["Fetch Script"] space c["Execute"]
-  a---->b
-  b---->c
+  columns 4
+  a["Parsing HTML"] space space b["Parsing HTML"]
+  a--"Waiting"--->b
+  space
+  c["Fetch Script"] d["Execute"]
 ```
 
 ## Async in Head
@@ -2641,7 +2627,7 @@ block-beta
 %%{init: {'theme':'dark'}}%%
 block-beta
   columns 3
-  a["Parsing HTML"] space b["Finish Parsing HTML"]
+  a["Parsing HTML"] space b["Parsing HTML"]
   a--"Waiting"--->b
   c["Fetch Script"] d["Execute"]
 ```
