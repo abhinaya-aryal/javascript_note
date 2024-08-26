@@ -240,7 +240,7 @@ switch (day) {
 > [!IMPORTANT]
 > If **multiiple cases** matches a case value, the **first case** is selected. If **no matching cases** found, the program continues to **default label**. If **no default label** found, program continues **after the switch** statement.
 
-## Loop in Loop
+# Loop in Loop
 
 ```js
 for (let exercise = 1; exercise < 4; exercise++) {
@@ -1728,6 +1728,193 @@ const [camaro, ...rest] = cars;
 console.log(rest);
 ```
 
+# Constructor Functions and new Operator
+
+```js
+const Person = function (firstName, birthYear) {
+  this.firstName = firstName;
+  this.birthYear = birthYear;
+};
+
+const jonas = new Person("Jonas", 1991);
+console.log(jonas);
+
+const maltida = new Person("Maltida", 2017);
+const jack = new Person("Jack", 1975);
+console.log(maltida, jack);
+
+console.log(jonas instanceof Person); // true
+```
+
+<!-- prettier-ignore -->
+> [!IMPORTANT]
+> Arrow function will not work as constructor and never create a method inside the **constructor** as it may create performance issues. Instead we can use **prototype inheritance** to solve this problem.
+
+# Prototypes
+
+```js
+Person.prototype.calcAge = function () {
+  console.log(2024 - this.birthYear);
+};
+
+Person.prototype.species = "Homo Sapiens";
+
+jonas.calcAge();
+console.log(jonas.species);
+```
+
+## Prototypal inheritance on Built In Object
+
+```js
+const arr = [3, 6, 4, 5, 6, 9, 3];
+console.log(arr.__proto__);
+console.log(arr.__proto__ === Array.prototype); // true
+console.log(arr.__proto__.__proto__);
+
+Array.prototype.unique = function () {
+  return [...new Set(this)];
+};
+
+console.log(arr.unique());
+```
+
+# ES6 Classes
+
+```js
+class PersonCl {
+  constructor(firstName, birthYear) {
+    this.firstName = firstName;
+    this.birthYear = birthYear;
+  }
+  // method will be added to .prototype property
+  calcAge() {
+    console.log(2024 - this.birthYear);
+  }
+  greet() {
+    console.log(`Hey ${this.firstName}`);
+  }
+}
+
+const jessica = new PersonCl("Jessica", 1996);
+jessica.calcAge();
+jessica.greet();
+```
+
+```js
+class Player {
+  #score = 0; // # represents private field so not accessible outside class
+  numlives = 10;
+
+  constructor(first, last) {
+    this.first = first;
+    this.last = last;
+  }
+
+  status() {
+    console.log(`Score: ${this.#score} Lives: ${this.numlives}`);
+  }
+}
+
+const player1 = new Player("blue", "steele");
+player1.status();
+
+console.log(player1.numlives);
+```
+
+# Static Methods
+
+```js
+class PersonCl {
+  constructor(firstName, birthYear) {
+    this.firstName = firstName;
+    this.birthYear = birthYear;
+  }
+
+  static hey() {
+    console.log("Hey there");
+    console.log(this);
+  }
+}
+
+PersonCl.hey();
+```
+
+In **class** we can add static methods with the help of `static` keyword. These `static` methods are not available on the instances.
+
+```js
+const jonas = new PersonCl("Jonas", 1991);
+jonas.hey(); // error
+```
+
+# Getters and Setters
+
+```js
+const account = {
+  owner: "Jonas",
+  movements: [200, 530, 120, 300],
+
+  get latest() {
+    return this.movements.slice(-1).pop();
+  },
+
+  set latest(mov) {
+    this.movements.push(mov);
+  },
+};
+
+console.log(account.latest);
+account.latest = 50;
+console.log(account.latest);
+```
+
+Here, `get` and `set` are the **properties** not the method so we do not use `()` while calling **getter and setter** function. We can also use `get` and `set` in **ES6** classes too.
+
+# Object.create
+
+```js
+const PersonProto = {
+  calcAge() {
+    console.log(2024 - this.birthYear);
+  },
+};
+
+const steven = Object.create(PersonProto);
+steven.name = "Steven";
+steven.birthYear = 2002;
+
+steven.calcAge();
+
+console.log(steven.__proto__ === PersonProto); // true
+```
+
+# Inheritance Between ES6 Classes
+
+```js
+class PersonCl {
+  constructor(firstName, birthYear) {
+    this.firstName = firstName;
+    this.birthYear = birthYear;
+  }
+  calcAge() {
+    console.log(2024 - this.birthYear);
+  }
+}
+
+class StudentCl extends PersonCl {
+  constructor(firstName, birthYear, course) {
+    super(firstName, birthYear);
+    this.course = course;
+  }
+  introduce() {
+    console.log(`My name is ${this.firstName}`);
+  }
+}
+
+const martha = new StudentCl("Martha", 2012, "Computer Science");
+martha.introduce();
+martha.calcAge();
+```
+
 # Timers, Set Timeout and Set Interval
 
 `setTimeout` timer runs just **once** after a **defined time** while the `setInterval` timer **keeps** running basically forever until we **stop** it.
@@ -1776,6 +1963,14 @@ const timer = setInterval(function () {
 
 # Promises and Fetch
 
+A `Promise` is a proxy for a value not necessarily known when the **promise is created**. It allows us to associate handlers with an asynchronous action's eventual success value of failure reason. This lets asynchronous methods return values like synchronous methods: instead of immediately returning the final value. The asynchronous method returns a promise to supply the value at some point in the future.
+
+A `Promise` is in one of these states:
+
+- **_pending:_** initial state, neither fulfilled nor rejected
+- **_fulfilled:_** meaning that the operation was completed successfully
+- **_rejected:_** meaning that the operation failed
+
 ```js
 const url = "https://jsonplaceholder.typicode.com/posts/1";
 
@@ -1784,6 +1979,169 @@ fetch(url)
   .then((data) => console.log(data))
   .catch((error) => console.log("Sorry", error));
 ```
+
+```js
+const wait = function (seconds) {
+  return new Promise(function (resolve) {
+    setTimeout(resolve, seconds * 1000);
+  });
+};
+
+wait(2)
+  .then(() => {
+    console.log("2 second passed");
+    return wait(1);
+  })
+  .then(() => {
+    console.log("3 seconds passed");
+    return wait(1);
+  })
+  .then(() => {
+    console.log("4 seconds passed");
+  });
+```
+
+`Promise.all` takes an iterable of promises as input and returns a single Promise. This returned promise fulfills when all of the input's promises fulfill, with an array of the fulfillment values. It rejects when any of the input's promises reject, with the first rejection reason.
+
+```js
+const getJSON = async function (url) {
+  try {
+    const response = await fetch(url);
+    if (!response.ok) throw new Error(`Failed to fetch: ${response.status}`);
+    const data = await response.json();
+    return data;
+  } catch (err) {
+    throw err;
+  }
+};
+
+const get3Post = async function (p1, p2, p3) {
+  try {
+    const data = await Promise.all([
+      getJSON(`https://jsonplaceholder.typicode.com/posts/${p1}`),
+      getJSON(`https://jsonplaceholder.typicode.com/posts/${p2}`),
+      getJSON(`https://jsonplaceholder.typicode.com/posts/${p3}`),
+    ]);
+    console.log(data.map((d) => d.title));
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+get3Post(1, 2, 3);
+```
+
+`Promise.race` takes an iterable of promises as input and returns a single Promise. This returned promise settles with the eventual state of the first promise that settles either fulfilled or rejected. If any of the promise **rejected** at first then it will settle with that rejected promise.
+
+```js
+const timeout = function (sec) {
+  return new Promise(function (_, reject) {
+    setTimeout(function () {
+      reject(new Error("Request took too long!"));
+    }, sec * 1000);
+  });
+};
+
+Promise.race([
+  getJSON("https://jsonplaceholder.typicode.com/posts/1"),
+  timeout(5),
+])
+  .then((res) => console.log("Promise.race: ", res))
+  .catch((err) => console.log(err));
+```
+
+`Promise.any` takes in an array of **multiple promises** and will return the **first** fulfilled promise and it will simply ignore the **rejected promises**. `Promise.any` is similar to `Promise.race` with a difference that rejected promises are ignored. So, the result of `Promise.any` is always going to be a fulfilled promise unless all of the promises reject.
+
+# Asynchronous JavaScript
+
+Most of the JavaScript code is **synchronous**. Synchronous code is executed **line by line**. Each line of code **waits** for previous line to finish. **Long** running operations block code execution.
+
+**Asynchronous** code is executed in the **background**. Asynchronous code is non-blocking. Execution doesn't wait for an asynchronous task to finish its work. `async` and `await` is used for asynchronous task.
+
+The `async` function run asynchronously in the background so `await` does not block the main thread of execution.
+
+```js
+const post = async function () {
+  const res = await fetch("https://jsonplaceholder.typicode.com/posts/1");
+  const data = await res.json();
+  console.log(data);
+};
+
+post();
+```
+
+# Script Tag Defer and Async
+
+## Regular
+
+```html
+<head>
+  .......
+  <script src="script.js"></script>
+</head>
+```
+
+```html
+<body>
+  .......
+  <script src="script.js"></script>
+</body>
+```
+
+```mermaid
+%%{init: {'theme':'dark'}}%%
+block-beta
+  columns 4
+  a["Parsing HTML"] space space b["Parsing HTML"]
+  a--"Waiting"--->b
+  space
+  c["Fetch Script"] d["Execute"]
+```
+
+## Async in Head
+
+```html
+<head>
+  .......
+  <script async src="script.js"></script>
+</head>
+```
+
+```mermaid
+%%{init: {'theme':'dark'}}%%
+block-beta
+  columns 3
+  a["Parsing HTML"] space b["Parsing HTML"]
+  a--"Waiting"--->b
+  c["Fetch Script"] d["Execute"]
+```
+
+## Defer in Head
+
+```html
+<head>
+  .......
+  <script defer src="script.js"></script>
+</head>
+```
+
+```mermaid
+%%{init: {'theme':'dark'}}%%
+block-beta
+  columns 3
+  a["Parsing HTML"]:2 b["Execute"]
+  c["Fetch Script"]
+```
+
+# Module Vs Script
+
+|                       | ES6 Module              | Script      |
+| --------------------- | ----------------------- | ----------- |
+| **HTML Linking:**     | \<script type="module"> | \<script>   |
+| **Variable:**         | Strict Mode             | Sloppy Mode |
+| **Top-level This:**   | undefined               | window      |
+| **Import/Export:**    | Yes                     | No          |
+| **File Downloading:** | Asynchronous            | Synchronous |
 
 # DOM Manipulation
 
@@ -2584,67 +2942,4 @@ window.addEventListener("beforeunload", function (e) {
   e.preventDefault();
   console.log("You are trying to close the site", e);
 });
-```
-
-# Script Tag Defer and Async
-
-## Regular
-
-```html
-<head>
-  .......
-  <script src="script.js"></script>
-</head>
-```
-
-```html
-<body>
-  .......
-  <script src="script.js"></script>
-</body>
-```
-
-```mermaid
-%%{init: {'theme':'dark'}}%%
-block-beta
-  columns 4
-  a["Parsing HTML"] space space b["Parsing HTML"]
-  a--"Waiting"--->b
-  space
-  c["Fetch Script"] d["Execute"]
-```
-
-## Async in Head
-
-```html
-<head>
-  .......
-  <script async src="script.js"></script>
-</head>
-```
-
-```mermaid
-%%{init: {'theme':'dark'}}%%
-block-beta
-  columns 3
-  a["Parsing HTML"] space b["Parsing HTML"]
-  a--"Waiting"--->b
-  c["Fetch Script"] d["Execute"]
-```
-
-## Defer in Head
-
-```html
-<head>
-  .......
-  <script defer src="script.js"></script>
-</head>
-```
-
-```mermaid
-%%{init: {'theme':'dark'}}%%
-block-beta
-  columns 3
-  a["Parsing HTML"]:2 b["Execute"]
-  c["Fetch Script"]
 ```
