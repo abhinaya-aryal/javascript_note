@@ -2586,17 +2586,79 @@ window.addEventListener("beforeunload", function (e) {
 });
 ```
 
-## Script Tag Defer and Async
+# Script Tag Defer and Async
+
+## Regular in Head
+
+```html
+<head>
+  .......
+  <script src="script.js"></script>
+</head>
+```
 
 ```mermaid
+%%{init: {'theme':'dark'}}%%
 block-beta
   columns 3
-  a["Parsing HTML"] space c["Finish Parsing HTML"]
-  a--"Waiting"--->c
+  a["Parsing HTML"] space b["Finish Parsing HTML"]
+  a--"Waiting"--->b
   space
   block
-  columns 2
-  d["Fetch Script"] e["Execute"]
+  columns 3
+  c["Fetch Script"] d["Execute"]
   end
-  space
+```
+
+## Regular in Body
+
+```html
+<body>
+  .......
+  <script src="script.js"></script>
+</body>
+```
+
+```mermaid
+%%{init: {'theme':'dark'}}%%
+block-beta
+  columns 5
+  a["Parsing HTML"] space b["Fetch Script"] space c["Execute"]
+  a---->b
+  b---->c
+```
+
+## Async in Head
+
+```html
+<head>
+  .......
+  <script async src="script.js"></script>
+</head>
+```
+
+```mermaid
+%%{init: {'theme':'dark'}}%%
+block-beta
+  columns 3
+  a["Parsing HTML"] space b["Finish Parsing HTML"]
+  a--"Waiting"--->b
+  c["Fetch Script"] d["Execute"]
+```
+
+## Defer in Head
+
+```html
+<head>
+  .......
+  <script defer src="script.js"></script>
+</head>
+```
+
+```mermaid
+%%{init: {'theme':'dark'}}%%
+block-beta
+  columns 3
+  a["Parsing HTML"]:2 b["Execute"]
+  c["Fetch Script"]
 ```
