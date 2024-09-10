@@ -101,7 +101,7 @@ console.log(age2);
 
 - Expressed function cannot be used before initialization.
 - Expressed functions need to be assigned to be used later.
-- Anonymous functions are useful for anonymous operations. They are also known as Immediately Invoked Function Expressions(IIFEs).
+- Anonymous functions are useful for anonymous operations. They are also known as Immediately Invoked Function Expressions(IIFE).
 
 # Function Calling Other Function
 
@@ -1262,7 +1262,7 @@ const jonas = {
   lastName: "Schmedtmann",
   birthYear: 1991,
   job: "teacher",
-  firends: ["Michael", "Peter"],
+  friends: ["Michael", "Peter"],
   hasDriverLicense: true,
   calcAge: function () {
     this.age = 2024 - this.birthYear;
@@ -1548,7 +1548,7 @@ orderSet.clear();
 
 <!-- prettier-ignore -->
 > [!IMPORTANT]
-> Ther is **no way** of retrieving values from a **set**. We have only **has** method to check whether the value **is in** set or not. If we need to **store and retrieve** the value later then **array** should be used.
+> There is **no way** of retrieving values from a **set**. We have only **has** method to check whether the value **is in** set or not. If we need to **store and retrieve** the value later then **array** should be used.
 
 We can **loop** through the **set**.
 
